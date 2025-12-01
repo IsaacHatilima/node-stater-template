@@ -50,6 +50,11 @@ export class LoginService {
             }
         });
 
+        await this.db.user.update({
+            where: {email: data.email},
+            data: {last_login: new Date()}
+        });
+
         return {
             user,
             access_token,
