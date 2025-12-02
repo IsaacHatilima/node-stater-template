@@ -29,7 +29,14 @@ export class ForgotPasswordService {
                 user.email
             );
 
-        const verificationUrl = `${process.env.APP_URL}/p?token=${verificationToken}`;
+        const verificationUrl = `${process.env.APP_URL}/check-password-reset-token?token=${verificationToken}`;
+
+        await this.db.passwordResetToken.create({
+            data: {
+                userId: user.id,
+                token: verificationToken,
+            }
+        });
 
         await sendMail(
             user.email,

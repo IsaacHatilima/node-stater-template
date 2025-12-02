@@ -1,4 +1,8 @@
 {
+  "name": "node",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
   "dependencies": {
     "@prisma/client": "^6.19.0",
     "bcrypt": "^6.0.0",
@@ -9,10 +13,6 @@
     "nodemailer": "^7.0.10",
     "zod": "^4.1.12"
   },
-  "name": "node",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
   "devDependencies": {
     "@types/bcrypt": "^6.0.0",
     "@types/cookie-parser": "^1.4.10",
@@ -29,8 +29,7 @@
   "scripts": {
     "dev": "nodemon",
     "start": "tsx app.ts",
-    "db": "npx prisma migrate dev --name",
-    "db:update": "npm run db -- && npx prisma generate"
+    "db:all": "npx prisma migrate dev && npx prisma db push && npx prisma generate"
   },
   "keywords": [],
   "author": "",
