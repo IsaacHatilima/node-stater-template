@@ -1,7 +1,7 @@
 import {PrismaClient} from "../../../generated/prisma/client";
 import jwt from "jsonwebtoken";
 
-export class ForgotPasswordTokenChecker {
+export class ForgotPasswordTokenCheckerService {
     constructor(private db: PrismaClient) {
     }
 

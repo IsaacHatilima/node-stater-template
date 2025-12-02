@@ -9,6 +9,7 @@ import RefreshTokenController from "./controllers/auth/RefreshTokenController";
 import LogoutController from "./controllers/auth/LogoutController";
 import ForgotPasswordController from "./controllers/auth/ForgotPasswordController";
 import ForgotPasswordTokenCheckerController from "./controllers/auth/ForgotPasswordTokenCheckerController";
+import ChangePasswordController from "./controllers/auth/ChangePasswordController";
 
 const router = Router();
 
@@ -20,5 +21,6 @@ router.get("/auth/verify-email", VerifyEmailController);
 router.post("/auth/refresh", RefreshTokenController);
 router.post("/auth/forgot-password", ForgotPasswordController);
 router.get("/auth/check-password-reset-token", ForgotPasswordTokenCheckerController);
+router.post("/auth/change-password", ChangePasswordController);
 
 export default router;

@@ -27,8 +27,6 @@ export default async function LoginController(req: Request, res: Response) {
             });
         }
 
-        console.error(error);
-
         return res.status(500).json({
             error: "Something went wrong",
         });
