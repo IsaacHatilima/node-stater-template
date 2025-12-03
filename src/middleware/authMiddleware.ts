@@ -1,6 +1,6 @@
 import {NextFunction, Request, Response} from "express";
 import jwt from "jsonwebtoken";
-import {PrismaClient} from "../../generated/prisma/client";
+import {PrismaClient} from "../generated/prisma/client";
 
 interface AuthRequest extends Request {
     user?: { id: string; email: string };

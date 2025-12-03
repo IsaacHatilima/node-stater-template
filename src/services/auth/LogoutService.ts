@@ -1,16 +1,13 @@
-import {PrismaClient} from "../../../generated/prisma/client";
+import {prisma} from "../../config/db";
 
 export class LogoutService {
-    constructor(private db: PrismaClient) {
-    }
-
     async logout(refreshToken: string) {
-        const stored = await this.db.refreshToken.findUnique({
+        const stored = await prisma.refreshToken.findUnique({
             where: {token: refreshToken}
         });
 
         if (stored) {
-            await this.db.refreshToken.update({
+            await prisma.refreshToken.update({
                 where: {token: refreshToken},
                 data: {revoked: true}
             });

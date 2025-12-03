@@ -1,13 +1,10 @@
-import {PrismaClient} from "../../../generated/prisma/client";
+import {prisma} from "../../config/db";
 import bcrypt from "bcrypt";
 import {normalizeEmail, toTitleCase} from "../../utils/string";
 import {container} from "../../lib/container";
 import {buildEmailTemplate, sendMail} from "../../lib/mailer";
 
 export class RegisterService {
-    constructor(private db: PrismaClient) {
-    }
-
     async register(data: {
         first_name: string;
         last_name: string;
@@ -17,8 +14,12 @@ export class RegisterService {
         try {
             const hashedPassword = await bcrypt.hash(data.password, 10);
 
-            const user = await this.db.user.create({
-                data: {
+            const user = await prisma.user.upsert({
+                where: {
+                    email: normalizeEmail(data.email),
+                },
+                update: {},
+                create: {
                     email: normalizeEmail(data.email),
                     password: hashedPassword,
                     profile: {
@@ -31,6 +32,7 @@ export class RegisterService {
                 include: {profile: true},
                 omit: {password: true},
             });
+
 
             const verificationToken =
                 container.emailVerificationService.generateVerificationToken(

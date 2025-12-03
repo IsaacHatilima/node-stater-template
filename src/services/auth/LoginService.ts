@@ -1,19 +1,14 @@
-import {PrismaClient} from "../../../generated/prisma/client";
+import {prisma} from "../../config/db";
 import bcrypt from "bcrypt";
 import {generateAccessToken, generateRefreshToken} from "../../lib/jwt";
 import jwt from "jsonwebtoken";
 
-const prisma = new PrismaClient();
-
 export class LoginService {
-    constructor(private db: PrismaClient) {
-    }
-
     async login(data: {
         email: string;
         password: string;
     }) {
-        const user = await this.db.user.findFirst({
+        const user = await prisma.user.findFirst({
             where: {email: data.email},
             include: {profile: true},
         });
@@ -41,7 +36,7 @@ export class LoginService {
 
         const {jti} = jwt.decode(access_token) as any;
 
-        await this.db.refreshToken.create({
+        await prisma.refreshToken.create({
             data: {
                 userId: user.id,
                 jti,
@@ -50,7 +45,7 @@ export class LoginService {
             }
         });
 
-        await this.db.user.update({
+        await prisma.user.update({
             where: {email: data.email},
             data: {last_login: new Date()}
         });

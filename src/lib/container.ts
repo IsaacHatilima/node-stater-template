@@ -1,4 +1,4 @@
-import {PrismaClient} from "../../generated/prisma/client";
+import {PrismaClient} from "../generated/prisma/client";
 import {RegisterService} from "../services/auth/RegisterService";
 import {MeService} from "../services/auth/MeService";
 import {LoginService} from "../services/auth/LoginService";

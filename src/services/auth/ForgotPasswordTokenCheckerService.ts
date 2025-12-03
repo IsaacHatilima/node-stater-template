@@ -1,12 +1,9 @@
-import {PrismaClient} from "../../../generated/prisma/client";
+import {prisma} from "../../config/db";
 import jwt from "jsonwebtoken";
 
 export class ForgotPasswordTokenCheckerService {
-    constructor(private db: PrismaClient) {
-    }
-
     async checkPasswordToken(token: string) {
-        const passwordToken = await this.db.passwordResetToken.findUnique({
+        const passwordToken = await prisma.passwordResetToken.findUnique({
             where: {token: token}
         });
 
@@ -24,7 +21,7 @@ export class ForgotPasswordTokenCheckerService {
             throw new Error("INVALID_PASSWORD_TOKEN");
         }
 
-        const user = await this.db.user.findUnique({
+        const user = await prisma.user.findUnique({
             where: {id: decoded.id},
             select: {id: true},
         });

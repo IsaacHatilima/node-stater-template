@@ -1,15 +1,12 @@
-import {PrismaClient} from "../../../generated/prisma/client";
+import {prisma} from "../../config/db";
 import {container} from "../../lib/container";
 import {buildEmailTemplate, sendMail} from "../../lib/mailer";
 
 export class ForgotPasswordService {
-    constructor(private db: PrismaClient) {
-    }
-
     async requestLink(data: {
         email: string;
     }) {
-        const user = await this.db.user.findFirst({
+        const user = await prisma.user.findFirst({
             where: {email: data.email},
             omit: {
                 password: true
@@ -31,7 +28,7 @@ export class ForgotPasswordService {
 
         const verificationUrl = `${process.env.APP_URL}/auth/check-password-reset-token?token=${verificationToken}`;
 
-        await this.db.passwordResetToken.create({
+        await prisma.passwordResetToken.create({
             data: {
                 userId: user.id,
                 token: verificationToken,

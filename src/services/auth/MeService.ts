@@ -1,11 +1,8 @@
-import {PrismaClient} from "../../../generated/prisma/client";
+import {prisma} from "../../config/db";
 
 export class MeService {
-    constructor(private db: PrismaClient) {
-    }
-
     async getMe(id: string) {
-        const user = await this.db.user.findUnique({
+        const user = await prisma.user.findUnique({
             where: {id},
             include: {profile: true},
             omit: {password: true}

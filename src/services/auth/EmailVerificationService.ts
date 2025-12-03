@@ -1,10 +1,7 @@
 import jwt from "jsonwebtoken";
-import {PrismaClient} from "../../../generated/prisma/client";
+import {prisma} from "../../config/db";
 
 export class EmailVerificationService {
-    constructor(private db: PrismaClient) {
-    }
-
     generateVerificationToken(userId: string, email: string) {
         return jwt.sign(
             {id: userId, email},
@@ -25,14 +22,14 @@ export class EmailVerificationService {
             throw new Error("INVALID_OR_EXPIRED_TOKEN");
         }
 
-        const user = await this.db.user.findUnique({
+        const user = await prisma.user.findUnique({
             where: {id: decoded.id}
         });
 
         if (!user) throw new Error("USER_NOT_FOUND");
         if (user.email_verified_at) throw new Error("ALREADY_VERIFIED");
 
-        await this.db.user.update({
+        await prisma.user.update({
             where: {id: decoded.id},
             data: {email_verified_at: new Date()}
         });
