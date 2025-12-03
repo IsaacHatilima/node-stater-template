@@ -13,7 +13,14 @@ export async function AuthMiddleware(
     res: Response,
     next: NextFunction
 ) {
-    const token = req.cookies?.access_token;
+    let token;
+    if (req.headers.authorization && req.headers.authorization.startsWith("Bearer")) {
+        token = req.headers.authorization.split(" ")[1];
+    }
+
+    if (req.cookies?.access_token) {
+        token = req.cookies.access_token;
+    }
 
     if (!token) {
         return res.status(401).json({errors: ["Unauthorized"]});
@@ -40,18 +47,18 @@ export async function AuthMiddleware(
 
         const user = await prisma.user.findUnique({
             where: {id: decoded.id},
-            select: {id: true, email: true}
+            include: {profile: true},
+            omit: {password: true},
         });
 
         if (!user) {
             return res.status(401).json({errors: ["Invalid or expired token"]});
         }
 
-        req.user = decoded;
+        req.user = user;
         next();
 
     } catch (error) {
-        console.error(error);
-        return res.status(401).json({errors: ["Invalid or expired token"]});
+        return res.status(401).json({errors: ["Invalid or expired session"]});
     }
 }
