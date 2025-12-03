@@ -14,12 +14,8 @@ export class RegisterService {
         try {
             const hashedPassword = await bcrypt.hash(data.password, 10);
 
-            const user = await prisma.user.upsert({
-                where: {
-                    email: normalizeEmail(data.email),
-                },
-                update: {},
-                create: {
+            const user = await prisma.user.create({
+                data: {
                     email: normalizeEmail(data.email),
                     password: hashedPassword,
                     profile: {
@@ -32,7 +28,6 @@ export class RegisterService {
                 include: {profile: true},
                 omit: {password: true},
             });
-
 
             const verificationToken =
                 container.emailVerificationService.generateVerificationToken(
