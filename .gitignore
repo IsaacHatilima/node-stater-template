@@ -3,5 +3,5 @@ node_modules
 .idea
 .node_modules
 /src/generated/*
-/tests/test.db
 /prisma/migrations
+/prisma/*.db
