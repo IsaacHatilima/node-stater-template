@@ -1,7 +1,7 @@
 import "dotenv/config";
 import {prisma} from "../../config/db";
 import bcrypt from "bcrypt";
-import {normalizeEmail, toTitleCase} from "../../utils/string";
+import {normalizeEmail, normalizeName} from "../../utils/string";
 import {container} from "../../lib/container";
 import {buildEmailTemplate, sendMail} from "../../lib/mailer";
 
@@ -21,8 +21,8 @@ export class RegisterService {
                     password: hashedPassword,
                     profile: {
                         create: {
-                            first_name: toTitleCase(data.first_name),
-                            last_name: toTitleCase(data.last_name),
+                            first_name: normalizeName(data.first_name),
+                            last_name: normalizeName(data.last_name),
                         },
                     },
                 },

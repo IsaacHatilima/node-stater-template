@@ -27,7 +27,7 @@ export class UpdatePasswordService {
 
             return {success: true};
         } catch (error: any) {
-            throw new Error("FAILED_TO_CHANGE_PASSWORD");
+            throw error;
         }
     }
 }

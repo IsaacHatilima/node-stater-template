@@ -4,10 +4,17 @@ export function toTitleCase(str: string) {
         .replace(/\b\w/g, (char) => char.toUpperCase());
 }
 
-export function normalizeEmail(email: string) {
-    return email.trim().toLowerCase();
+export function normalizeName(name: string): string {
+    const cleaned = name
+        .trim()
+        .toLowerCase()
+        .split(/\s+/)
+        .map(part => part.charAt(0).toUpperCase() + part.slice(1))
+        .join(" ");
+
+    return toTitleCase(cleaned);
 }
 
-export function capitalize(str: string) {
-    return str.charAt(0).toUpperCase() + str.slice(1);
+export function normalizeEmail(email: string) {
+    return email.trim().toLowerCase();
 }
