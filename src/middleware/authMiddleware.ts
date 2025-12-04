@@ -3,14 +3,10 @@ import jwt from "jsonwebtoken";
 import {PrismaClient} from "../generated/prisma/client";
 import {redis} from "../config/redis";
 
-interface AuthRequest extends Request {
-    user?: { id: string; email: string };
-}
-
 const prisma = new PrismaClient();
 
 export async function AuthMiddleware(
-    req: AuthRequest,
+    req: Request,
     res: Response,
     next: NextFunction
 ) {

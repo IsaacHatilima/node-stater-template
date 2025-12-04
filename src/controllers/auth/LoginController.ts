@@ -28,6 +28,8 @@ export default async function LoginController(req: Request, res: Response) {
         return res.json({
             message: "Logged in",
             user: result.user,
+            access_token: result.access_token,
+            refresh_token: result.refresh_token,
         });
 
     } catch (error: any) {
