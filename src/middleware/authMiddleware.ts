@@ -1,9 +1,7 @@
 import {NextFunction, Request, Response} from "express";
 import jwt from "jsonwebtoken";
-import {PrismaClient} from "../generated/prisma/client";
 import {redis} from "../config/redis";
-
-const prisma = new PrismaClient();
+import {prisma} from "../config/db";
 
 export async function AuthMiddleware(
     req: Request,

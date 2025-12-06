@@ -9,6 +9,7 @@ import {ForgotPasswordTokenCheckerService} from "../services/auth/ForgotPassword
 import {ChangePasswordService} from "../services/auth/ChangePasswordService";
 import {UpdatePasswordService} from "../services/settings/UpdatePasswordService";
 import {UpdateProfileService} from "../services/settings/UpdateProfileService";
+import {DeleteAccountService} from "../services/settings/DeleteAccountService";
 
 class Container {
     loginService = new LoginService();
@@ -22,6 +23,7 @@ class Container {
     changePasswordService = new ChangePasswordService();
     updatePasswordService = new UpdatePasswordService();
     updateProfileService = new UpdateProfileService();
+    deleteAccountService = new DeleteAccountService();
 }
 
 export const container = new Container();
