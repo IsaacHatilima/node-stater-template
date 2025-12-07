@@ -11,6 +11,7 @@ import ForgotPasswordController from "../controllers/auth/ForgotPasswordControll
 import ForgotPasswordTokenCheckerController from "../controllers/auth/ForgotPasswordTokenCheckerController";
 import ChangePasswordController from "../controllers/auth/ChangePasswordController";
 import {TwoFactorChallengeController} from "../controllers/auth/TwoFactorChallengeController";
+import GoogleLoginController from "../controllers/auth/GoogleLoginController";
 
 
 const router = Router();
@@ -25,5 +26,6 @@ router.post("/forgot-password", AuthLimiter, ForgotPasswordController);
 router.get("/check-password-reset-token", AuthLimiter, ForgotPasswordTokenCheckerController);
 router.post("/change-password", ChangePasswordController);
 router.post("/2fa/verify", AuthLimiter, TwoFactorChallengeController);
+router.post("/google", AuthLimiter, GoogleLoginController);
 
 export default router;
