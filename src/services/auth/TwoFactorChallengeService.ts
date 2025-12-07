@@ -1,8 +1,7 @@
 import {redis} from "../../config/redis";
 import {prisma} from "../../config/db";
 import speakeasy from "speakeasy";
-import {generateAccessToken, generateRefreshToken} from "../../lib/jwt";
-import jwt, {JwtPayload} from "jsonwebtoken";
+import {generateAuthToken} from "../../lib/auth-token-generator";
 
 export class TwoFactorChallengeService {
     async verifyLoginCode(data: { challenge_id: string; code: string }) {
@@ -28,28 +27,15 @@ export class TwoFactorChallengeService {
         }
         if (!ok) throw new Error("INVALID_TFA_TOKEN");
 
-        // Issue tokens now
-        const access_token = generateAccessToken({id: user.id, email: user.email});
-        const refresh_token = generateRefreshToken({id: user.id});
+        const tokens = await generateAuthToken({id: user.id, email: user.email});
 
-        const decoded = jwt.decode(access_token) as JwtPayload & { jti?: string };
-        const jti = decoded.jti as string;
-
-        await prisma.refreshToken.create({
-            data: {
-                userId: user.id,
-                jti,
-                token: refresh_token,
-                expiresAt: new Date(Date.now() + 7 * 24 * 3600 * 1000),
-            },
-        });
 
         await redis
             .multi()
             .setEx(
-                `session:${jti}`,
+                `session:${tokens.jti}`,
                 60 * 5,
-                JSON.stringify({userId: user.id, jti})
+                JSON.stringify({userId: user.id, jti: tokens.jti})
             )
             .setEx(`user:${user.id}`, 60 * 5, JSON.stringify({...user, password: undefined}))
             .del(cacheKey)
@@ -58,6 +44,10 @@ export class TwoFactorChallengeService {
         const userSafe = {...user} as any;
         delete userSafe.password;
 
-        return {user: userSafe, access_token, refresh_token};
+        return {
+            user: userSafe,
+            access_token: tokens.access_token,
+            refresh_token: tokens.refresh_token,
+        };
     }
 }

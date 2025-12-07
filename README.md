@@ -65,3 +65,15 @@ When switching from SQLite to PostgreSQL or vice versa, make sure to delete migr
 
 The QR code can be shown by pasting ```data:image/png;base64,....```
 in the response from 2FA init route [here](https://base64.guru/converter/decode/image)
+
+## Google Auth Flow
+
+To test Google Auth Flow, use the following:
+
+1. Go to [Google OAuth](https://developers.google.com/oauthplayground/)
+2. Pick Google OAuth2
+3. Select all options
+4. Top right, click Settings -> Use your own OAuth credentials
+5. Enter Client ID and Client Secret
+6. Click Authorize APIs and then Exchange authorization code for tokens
+7. Copy the id_token and paste it in the request body

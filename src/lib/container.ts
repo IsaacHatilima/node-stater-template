@@ -12,6 +12,7 @@ import {UpdateProfileService} from "../services/settings/UpdateProfileService";
 import {DeleteAccountService} from "../services/settings/DeleteAccountService";
 import {TwoFactorService} from "../services/settings/TwoFactorService";
 import {TwoFactorChallengeService} from "../services/auth/TwoFactorChallengeService";
+import {GoogleLoginService} from "../services/auth/GoogleLoginService";
 
 class Container {
     loginService = new LoginService();
@@ -28,6 +29,7 @@ class Container {
     deleteAccountService = new DeleteAccountService();
     twoFactorService = new TwoFactorService();
     twoFactorChallengeService = new TwoFactorChallengeService();
+    googleLoginService = new GoogleLoginService();
 }
 
 export const container = new Container();

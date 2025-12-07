@@ -1,0 +1,53 @@
+import "dotenv/config";
+import {Request, Response} from "express";
+import {container} from "../../lib/container";
+import {setAuthCookies} from "../../lib/set-auth-cookies";
+
+export default async function GoogleLoginController(req: Request, res: Response) {
+    try {
+        const {id_token} = req.body as { id_token?: string };
+        if (!id_token) {
+            return res.status(422).json({errors: ["id_token is required"]});
+        }
+
+        const result = await container.googleLoginService.loginWithIdToken({id_token});
+
+        if ((result).two_factor_required) {
+            return res.status(200).json({
+                message: "Two-factor authentication required",
+                two_factor_required: true,
+                challenge_id: (result).challenge_id,
+                user: (result).user,
+            });
+        }
+
+        if ((result).no_account) {
+            return res.status(404).json({
+                errors: ["No account connected"],
+                no_account: true,
+                email: (result).email,
+            });
+        }
+
+        setAuthCookies(res, {
+            access: result.tokens!.access_token,
+            refresh: result.tokens!.refresh_token,
+        });
+
+        return res.json({
+            message: "Logged in with Google",
+            user: result.user,
+            access: result.tokens!.access_token,
+            refresh: result.tokens!.refresh_token,
+        });
+    } catch (error: any) {
+        if (error instanceof Error && (error.message === "GOOGLE_TOKEN_INVALID")) {
+            return res.status(400).json({errors: ["Invalid Google token"]});
+        }
+        if (error instanceof Error && (error.message === "GOOGLE_CLIENT_ID_NOT_SET")) {
+            return res.status(500).json({errors: ["Server misconfiguration: GOOGLE_CLIENT_ID not set"]});
+        }
+
+        return res.status(500).json({error: "Something went wrong"});
+    }
+}
