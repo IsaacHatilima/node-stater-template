@@ -8,12 +8,14 @@ export class TwoFactorChallengeService {
         const cacheKey = `tfchal:${data.challenge_id}`;
         const payload = await redis.get(cacheKey);
         if (!payload) throw new Error("TFA_CHALLENGE_NOT_FOUND");
+
         const {userId} = JSON.parse(payload) as { userId: string };
 
         const user = await prisma.user.findUnique({where: {id: userId}});
         if (!user || !user.two_factor_enabled) throw new Error("TFA_NOT_ENABLED");
 
         let ok = false;
+        
         if (user.two_factor_secret) {
             ok = speakeasy.totp.verify({
                 secret: user.two_factor_secret,
@@ -22,13 +24,30 @@ export class TwoFactorChallengeService {
                 window: 1,
             });
         }
-        if (!ok) {
-            ok = (user.two_factor_recovery_codes ?? []).includes(data.code);
+
+        let backupCodes = user.two_factor_recovery_codes ?? [];
+
+        if (!ok && backupCodes.length) {
+            const idx = backupCodes.indexOf(data.code);
+            if (idx !== -1) {
+                ok = true;
+                backupCodes.splice(idx, 1); // consume
+            }
         }
+
         if (!ok) throw new Error("INVALID_TFA_TOKEN");
 
-        const tokens = await generateAuthToken({id: user.id, email: user.email});
+        if (backupCodes.length !== (user.two_factor_recovery_codes?.length ?? 0)) {
+            await prisma.user.update({
+                where: {id: user.id},
+                data: {two_factor_recovery_codes: backupCodes},
+            });
+        }
 
+        const tokens = await generateAuthToken({
+            id: user.id,
+            email: user.email,
+        });
 
         await redis
             .multi()
@@ -37,7 +56,11 @@ export class TwoFactorChallengeService {
                 60 * 5,
                 JSON.stringify({userId: user.id, jti: tokens.jti})
             )
-            .setEx(`user:${user.id}`, 60 * 5, JSON.stringify({...user, password: undefined}))
+            .setEx(
+                `user:${user.id}`,
+                60 * 5,
+                JSON.stringify({...user, password: undefined})
+            )
             .del(cacheKey)
             .exec();
 
@@ -50,4 +73,5 @@ export class TwoFactorChallengeService {
             refresh_token: tokens.refresh_token,
         };
     }
+
 }

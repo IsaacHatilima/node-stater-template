@@ -9,13 +9,13 @@ export async function AuthMiddleware(
     next: NextFunction
 ) {
     let token;
-    if (req.headers.authorization && req.headers.authorization.startsWith("Bearer")) {
-        token = req.headers.authorization.split(" ")[1];
-    }
 
-    if (req.cookies?.access_token) {
+    if (req.headers.authorization?.startsWith("Bearer ")) {
+        token = req.headers.authorization.split(" ")[1];
+    } else if (req.cookies?.access_token) {
         token = req.cookies.access_token;
     }
+
 
     if (!token) {
         return res.status(401).json({errors: ["Unauthorized"]});
@@ -24,7 +24,7 @@ export async function AuthMiddleware(
     try {
         const decoded: any = jwt.verify(
             token,
-            process.env.JWT_SECRET as string
+            process.env.JWT_ACCESS_SECRET as string
         );
 
         if (decoded.jti) {

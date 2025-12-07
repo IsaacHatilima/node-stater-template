@@ -1,6 +1,7 @@
 import {Request, Response} from "express";
 import {container} from "../../lib/container";
 import {setAuthCookies} from "../../lib/set-auth-cookies";
+import {prisma} from "../../config/db";
 
 export async function TwoFactorChallengeController(req: Request, res: Response) {
     try {
@@ -11,6 +12,11 @@ export async function TwoFactorChallengeController(req: Request, res: Response) 
         setAuthCookies(res, {
             access: result.access_token,
             refresh: result.refresh_token,
+        });
+
+        await prisma.user.update({
+            where: {email: req.user.email},
+            data: {last_login: new Date()}
         });
 
         return res.json({

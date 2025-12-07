@@ -15,7 +15,7 @@ export class RefreshTokenService {
 
         let decoded;
         try {
-            decoded = jwt.verify(refreshToken, process.env.JWT_SECRET as string) as {
+            decoded = jwt.verify(refreshToken, process.env.JWT_ACCESS_SECRET as string) as {
                 id: string;
                 email: string;
             };

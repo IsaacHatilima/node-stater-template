@@ -10,7 +10,7 @@ export class LoginService {
         email: string;
         password: string;
     }) {
-        const user = await prisma.user.findFirst({
+        const user = await prisma.user.findUnique({
             where: {email: data.email},
             include: {profile: true},
         });
