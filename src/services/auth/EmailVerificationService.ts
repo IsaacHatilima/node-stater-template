@@ -6,7 +6,7 @@ export class EmailVerificationService {
     generateVerificationToken(userId: string, email: string) {
         return jwt.sign(
             {id: userId, email},
-            process.env.JWT_SECRET as string,
+            process.env.APP_KEY as string,
             {expiresIn: "1h"}
         );
     }
@@ -17,7 +17,7 @@ export class EmailVerificationService {
         try {
             decoded = jwt.verify(
                 token,
-                process.env.JWT_SECRET as string
+                process.env.APP_KEY as string
             ) as { id: string; email: string };
         } catch {
             throw new Error("INVALID_OR_EXPIRED_TOKEN");
