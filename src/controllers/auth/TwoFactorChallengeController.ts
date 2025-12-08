@@ -15,7 +15,7 @@ export async function TwoFactorChallengeController(req: Request, res: Response) 
         });
 
         await prisma.user.update({
-            where: {email: req.user.email},
+            where: {id: result.user.id},
             data: {last_login: new Date()}
         });
 

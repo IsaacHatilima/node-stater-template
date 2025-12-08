@@ -21,7 +21,7 @@ router.post("/logout", AuthMiddleware, LogoutController);
 router.post("/register", AuthLimiter, RegisterController);
 router.get("/me", AuthMiddleware, MeController);
 router.get("/verify-email", AuthLimiter, VerifyEmailController);
-router.post("/refresh-tokens", AuthMiddleware, RefreshTokenController);
+router.post("/refresh-tokens", RefreshTokenController);
 router.post("/forgot-password", AuthLimiter, ForgotPasswordController);
 router.get("/check-password-reset-token", AuthLimiter, ForgotPasswordTokenCheckerController);
 router.post("/change-password", ChangePasswordController);

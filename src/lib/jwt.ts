@@ -1,6 +1,6 @@
 import "dotenv/config";
 import {randomUUID} from "crypto";
-import jwt, {SignOptions} from "jsonwebtoken";
+import jwt from "jsonwebtoken";
 
 const accessSecret = process.env.JWT_ACCESS_SECRET as string;
 const refreshSecret = process.env.JWT_REFRESH_SECRET as string;
@@ -13,7 +13,7 @@ interface JwtPayload {
     email: string;
 }
 
-export function generateAccessToken(payload: any) {
+export function generateAccessToken(payload: JwtPayload) {
     return jwt.sign(
         {
             ...payload,
@@ -23,27 +23,13 @@ export function generateAccessToken(payload: any) {
         {expiresIn: accessExpires});
 }
 
-export function generateRefreshToken(payload: any) {
-    return jwt.sign(payload, refreshSecret, {expiresIn: refreshExpires});
-}
-
-export function refreshAccessToken(payload: JwtPayload) {
-    const options: SignOptions = {
-        expiresIn: (process.env.JWT_ACCESS_EXPIRES_IN as "15m") || "15m",
-    };
-
+export function generateRefreshToken(payload: JwtPayload) {
     return jwt.sign(
         {
             ...payload,
             jti: randomUUID(),
         },
-        accessSecret, options);
-}
-
-export function refreshRefreshToken(payload: JwtPayload) {
-    const options: SignOptions = {
-        expiresIn: (process.env.JWT_REFRESH_EXPIRES_IN as "7d") || "7d",
-    };
-
-    return jwt.sign(payload, refreshSecret, options);
+        refreshSecret,
+        {expiresIn: refreshExpires}
+    );
 }

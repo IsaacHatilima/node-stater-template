@@ -1,7 +1,7 @@
 import {prisma} from "../../config/db";
 import {redis} from "../../config/redis";
 import jwt from "jsonwebtoken";
-import {refreshAccessToken, refreshRefreshToken} from "../../lib/jwt";
+import {generateAccessToken, generateRefreshToken} from "../../lib/jwt";
 
 export class RefreshTokenService {
     async refresh(refreshToken: string) {
@@ -10,25 +10,25 @@ export class RefreshTokenService {
         });
 
         if (!stored || stored.revoked) {
-            throw new Error("INVALID_REFRESH_TOKEN");
+            throw new Error("INVALID_OR_EXPIRED_REFRESH_TOKEN");
         }
 
         let decoded;
         try {
-            decoded = jwt.verify(refreshToken, process.env.JWT_ACCESS_SECRET as string) as {
+            decoded = jwt.verify(refreshToken, process.env.JWT_REFRESH_SECRET as string) as {
                 id: string;
                 email: string;
             };
         } catch {
-            throw new Error("INVALID_REFRESH_TOKEN");
+            throw new Error("INVALID_OR_EXPIRED_REFRESH_TOKEN");
         }
 
-        const newRefresh = refreshRefreshToken({
+        const newRefresh = generateRefreshToken({
             id: decoded.id,
             email: decoded.email
         });
 
-        const newAccess = refreshAccessToken({
+        const newAccess = generateAccessToken({
             id: decoded.id,
             email: decoded.email
         });

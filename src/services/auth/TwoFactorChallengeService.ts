@@ -12,7 +12,7 @@ export class TwoFactorChallengeService {
 
         const {userId} = JSON.parse(payload) as { userId: string };
 
-        const user = await prisma.user.findUnique({where: {id: userId}});
+        const user = await prisma.user.findUnique({where: {id: userId}, include: {profile: true}});
         if (!user || !user.two_factor_enabled) throw new Error("TFA_NOT_ENABLED");
 
         let ok = false;
@@ -26,7 +26,7 @@ export class TwoFactorChallengeService {
             });
         }
 
-        let backupCodes = user.two_factor_recovery_codes ?? [];
+        let backupCodes = [...(user.two_factor_recovery_codes ?? [])];
 
         if (!ok && backupCodes.length) {
             const idx = backupCodes.indexOf(data.code);

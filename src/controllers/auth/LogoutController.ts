@@ -5,7 +5,7 @@ import {container} from "../../lib/container";
 export default async function LogoutController(req: Request, res: Response) {
 
     const refreshToken = req.cookies?.refresh_token;
-    const isProduction = process.env.APP_ENV === "production";
+    const isProduction = process.env.NODE_ENV === "production";
 
     if (!refreshToken) {
         res.clearCookie("access_token", {

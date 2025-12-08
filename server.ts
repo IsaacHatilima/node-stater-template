@@ -16,7 +16,7 @@ import {initRedis} from "./src/config/redis";
         });
 
         process.on("unhandledRejection", (err) => {
-            const isDev = process.env.APP_ENV === "local";
+            const isDev = process.env.NODE_ENV === "local";
             if (isDev) console.error("Unhandled Rejection:", err);
             server.close(async () => {
                 await disconnectDB();
@@ -31,7 +31,7 @@ import {initRedis} from "./src/config/redis";
         });
 
     } catch (err) {
-        const isDev = process.env.APP_ENV === "local";
+        const isDev = process.env.NODE_ENV === "local";
         if (isDev) console.error("Failed to start server:", err);
         process.exit(1);
     }

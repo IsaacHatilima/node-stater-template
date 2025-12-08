@@ -13,7 +13,7 @@ export class ForgotPasswordTokenCheckerService {
 
         let decoded;
         try {
-            decoded = jwt.verify(token, process.env.JWT_SECRET as string) as {
+            decoded = jwt.verify(token, process.env.APP_KEY as string) as {
                 id: string;
                 email: string;
             };

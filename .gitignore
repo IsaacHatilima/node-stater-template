@@ -1,5 +1,6 @@
 node_modules
-.env
+.env.development
+.env.test
 .idea
 .node_modules
 /src/generated/*

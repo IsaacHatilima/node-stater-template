@@ -2,31 +2,24 @@
 
 ## Environment Config
 
-API is configured to use PsotggreSQL or SQLite databases.
+API is configured to use PostgreSQL.
 
-## Running API
+## Setup
+
+To prepare the API, make changes to .env.development and env.test files as needed:
+
+### Then
 
 ```bash
+
+cp .env.example .env.development
+cp .env.example .env.test
 
 # Install JavaScript dependencies
 npm install
 
-# Copy environment config and generate app key
-cp .env.example .env
-
-# Configure DATABASE_URL in .env file to point to your database
-
-# If using SQLite,
-DATABASE_URL="file:./dev.db"
-
-# If using SQLite, Change provider in prisma/schema.prisma to sqlite
-provider = "sqlite"
-
-# Generate JWT_SECRET
+# Generate Token Secret for APP_KEY, JWT_ACCESS_SECRET and JWT_REFRESH_SECRET
 node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
-[README.md](../../Laravel/peer-banking/README.md)
-# Run migrations and generate Prisma client
-npm run db:all
 
 # Run API
 npm run dev
@@ -35,31 +28,20 @@ npm run dev
 
 ## Testing API
 
+API architecture is set up to use two schemas, one for testing and one for production/development.
+
 ```bash
 
-# Update DATABASE_URL in .env file to point to test database or SQLite
-DATABASE_URL="file:./dev.db"
-# PROVIDER in .env to match the database provider used in prisma/schema.prisma
-PROVIDER=
+# Generate migrations
+npm run db:migrate
 
-# If using SQLite, Change provider in prisma/schema.prisma to sqlite and delete migration folder
-provider = "sqlite"
-
-# Deleting migration and generated folders if any, 
-rm -r prisma/migrations
-rm -r src/generated
-
-# Run migrations and generate Prisma client
-npm run db:all
+# Sync both schemas
+npm run db:sync
 
 # Run tests
 npm run test
 
 ```
-
-## NOTE
-
-When switching from SQLite to PostgreSQL or vice versa, make sure to delete migration folder and generated folders.
 
 ## Two-Factor QR Code
 
