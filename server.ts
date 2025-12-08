@@ -9,18 +9,24 @@ import {initRedis} from "./src/config/redis";
         await initRedis();
 
         const app = createApp();
+        const port = process.env.PORT ? Number(process.env.PORT) : 3000;
 
-        const server = app.listen(3000, () => {
+        const server = app.listen(port, () => {
             console.log("Server running on port 3000");
         });
 
-        process.on("uncaughtRejection", async (err) => {
+        process.on("unhandledRejection", (err) => {
             const isDev = process.env.APP_ENV === "local";
             if (isDev) console.error("Unhandled Rejection:", err);
-
             server.close(async () => {
                 await disconnectDB();
                 process.exit(1);
+            });
+        });
+
+        process.on("SIGTERM", () => {
+            server.close(async () => {
+                disconnectDB().finally(() => process.exit(0));
             });
         });
 

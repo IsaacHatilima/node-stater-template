@@ -2,8 +2,8 @@ import "dotenv/config";
 import {randomUUID} from "crypto";
 import jwt, {SignOptions} from "jsonwebtoken";
 
-const accessSecret = process.env.JWT_SECRET as string;
-const refreshSecret = process.env.JWT_SECRET as string;
+const accessSecret = process.env.JWT_ACCESS_SECRET as string;
+const refreshSecret = process.env.JWT_REFRESH_SECRET as string;
 
 const accessExpires = (process.env.JWT_ACCESS_EXPIRES_IN ?? "15m") as jwt.SignOptions["expiresIn"];
 const refreshExpires = (process.env.JWT_REFRESH_EXPIRES_IN ?? "7d") as jwt.SignOptions["expiresIn"];
@@ -45,5 +45,5 @@ export function refreshRefreshToken(payload: JwtPayload) {
         expiresIn: (process.env.JWT_REFRESH_EXPIRES_IN as "7d") || "7d",
     };
 
-    return jwt.sign(payload, accessSecret, options);
+    return jwt.sign(payload, refreshSecret, options);
 }

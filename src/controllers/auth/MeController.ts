@@ -1,11 +1,7 @@
 import {Request, Response} from "express";
 import {container} from "../../lib/container";
 
-interface AuthRequest extends Request {
-    user?: { id: string; email: string };
-}
-
-export default async function MeController(req: AuthRequest, res: Response) {
+export default async function MeController(req: Request, res: Response) {
     try {
         const user = await container.meService.getMe(req.user!.id);
 
@@ -18,7 +14,7 @@ export default async function MeController(req: AuthRequest, res: Response) {
                 errors: ["User not found"]
             });
         }
-        
+
         return res.status(500).json({
             error: "Something went wrong"
         });
