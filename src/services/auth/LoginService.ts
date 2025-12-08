@@ -4,6 +4,7 @@ import {generateAccessToken, generateRefreshToken} from "../../lib/jwt";
 import jwt, {JwtPayload} from "jsonwebtoken";
 import {redis} from "../../config/redis";
 import {v4 as uuidv4} from "uuid";
+import {toSafeUser} from "../../lib/safe-user";
 
 export class LoginService {
     async login(data: {
@@ -34,17 +35,12 @@ export class LoginService {
                 JSON.stringify({userId: user.id})
             );
 
-            const userSafe = {...user} as any;
-            delete userSafe.password;
-
             return {
                 two_factor_required: true,
                 challenge_id: challengeId,
-                user: userSafe,
+                user: toSafeUser(user),
             } as any;
         }
-
-        delete (user as any).password;
 
         const access_token = generateAccessToken({
             id: user.id,
@@ -85,13 +81,13 @@ export class LoginService {
             .setEx(
                 `user:${user.id}`,
                 60 * 5,
-                JSON.stringify(user)
+                JSON.stringify(toSafeUser(user))
             )
             .exec();
 
 
         return {
-            user,
+            user: toSafeUser(user),
             access_token,
             refresh_token,
         };

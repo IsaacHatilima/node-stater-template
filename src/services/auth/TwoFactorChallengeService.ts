@@ -2,6 +2,7 @@ import {redis} from "../../config/redis";
 import {prisma} from "../../config/db";
 import speakeasy from "speakeasy";
 import {generateAuthToken} from "../../lib/auth-token-generator";
+import {toSafeUser} from "../../lib/safe-user";
 
 export class TwoFactorChallengeService {
     async verifyLoginCode(data: { challenge_id: string; code: string }) {
@@ -15,7 +16,7 @@ export class TwoFactorChallengeService {
         if (!user || !user.two_factor_enabled) throw new Error("TFA_NOT_ENABLED");
 
         let ok = false;
-        
+
         if (user.two_factor_secret) {
             ok = speakeasy.totp.verify({
                 secret: user.two_factor_secret,
@@ -59,16 +60,13 @@ export class TwoFactorChallengeService {
             .setEx(
                 `user:${user.id}`,
                 60 * 5,
-                JSON.stringify({...user, password: undefined})
+                JSON.stringify(toSafeUser(user))
             )
             .del(cacheKey)
             .exec();
 
-        const userSafe = {...user} as any;
-        delete userSafe.password;
-
         return {
-            user: userSafe,
+            user: toSafeUser(user),
             access_token: tokens.access_token,
             refresh_token: tokens.refresh_token,
         };

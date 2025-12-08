@@ -4,6 +4,7 @@ import bcrypt from "bcrypt";
 import {normalizeEmail, normalizeName} from "../../utils/string";
 import {container} from "../../lib/container";
 import {buildEmailTemplate, sendMail} from "../../lib/mailer";
+import {toSafeUser} from "../../lib/safe-user";
 
 export class RegisterService {
     async register(data: {
@@ -27,7 +28,6 @@ export class RegisterService {
                     },
                 },
                 include: {profile: true},
-                omit: {password: true},
             });
 
             const verificationToken =
@@ -49,7 +49,7 @@ export class RegisterService {
                 })
             );
 
-            return user;
+            return toSafeUser(user);
 
         } catch (error: any) {
             if (error.code === "P2002" && error.meta?.target?.includes("email")) {

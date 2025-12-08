@@ -3,6 +3,7 @@ import {prisma} from "../../config/db";
 import {redis} from "../../config/redis";
 import {v4 as uuidv4} from "uuid";
 import {generateAuthToken} from "../../lib/auth-token-generator";
+import {toSafeUser} from "../../lib/safe-user";
 
 export class GoogleLoginService {
     private client: OAuth2Client;
@@ -30,7 +31,6 @@ export class GoogleLoginService {
         const user = await prisma.user.findFirst({
             where: {email},
             include: {profile: true},
-            omit: {password: true},
         });
 
         if (!user) {
@@ -67,11 +67,11 @@ export class GoogleLoginService {
                 60 * 5,
                 JSON.stringify({userId: user.id, jti: tokens.jti})
             )
-            .setEx(`user:${user.id}`, 60 * 5, JSON.stringify(user))
+            .setEx(`user:${user.id}`, 60 * 5, JSON.stringify(toSafeUser(user)))
             .exec();
 
         return {
-            user,
+            user: toSafeUser(user),
             tokens: {
                 access_token: tokens.access_token,
                 refresh_token: tokens.refresh_token

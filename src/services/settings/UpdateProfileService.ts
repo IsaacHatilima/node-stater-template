@@ -1,6 +1,7 @@
 import {prisma} from "../../config/db";
 import {normalizeEmail, normalizeName} from "../../utils/string";
 import {redis} from "../../config/redis";
+import {toSafeUser} from "../../lib/safe-user";
 
 export class UpdateProfileService {
     async updateProfile(data: {
@@ -26,13 +27,12 @@ export class UpdateProfileService {
                 include: {
                     profile: true,
                 },
-                omit: {password: true},
             });
 
             await redis.setEx(
                 `user:${updatedUser.id}`,
                 60 * 5,
-                JSON.stringify(updatedUser)
+                JSON.stringify(toSafeUser(updatedUser))
             );
 
             return {success: true};
