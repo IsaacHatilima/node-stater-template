@@ -5,7 +5,7 @@ export default async function MeController(req: Request, res: Response) {
     try {
         const user = await container.meService.getMe(req.user!.id);
 
-        return res.json({user});
+        return res.json({user}); // @safe
 
     } catch (error: unknown) {
 

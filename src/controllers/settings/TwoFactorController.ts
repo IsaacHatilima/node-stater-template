@@ -28,7 +28,6 @@ export async function TwoFAEnableController(req: Request, res: Response) {
             return res.status(400).json({errors: ["Setup not found or expired."]});
         if (msg === "INVALID_TFA_TOKEN")
             return res.status(400).json({errors: ["Invalid 2FA token."]});
-        console.log(error);
         return res.status(500).json({error: "Something went wrong."});
     }
 }

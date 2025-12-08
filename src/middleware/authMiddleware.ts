@@ -2,6 +2,7 @@ import {NextFunction, Request, Response} from "express";
 import jwt from "jsonwebtoken";
 import {redis} from "../config/redis";
 import {prisma} from "../config/db";
+import {toSafeUser} from "../lib/safe-user";
 
 export async function AuthMiddleware(
     req: Request,
@@ -64,14 +65,13 @@ export async function AuthMiddleware(
             user = await prisma.user.findUnique({
                 where: {id: decoded.id},
                 include: {profile: true},
-                omit: {password: true},
             });
 
             if (!user) {
                 return res.status(401).json({errors: ["Invalid or expired token"]});
             }
 
-            await redis.setEx(userCacheKey, 60 * 5, JSON.stringify(user));
+            await redis.setEx(userCacheKey, 60 * 5, JSON.stringify(toSafeUser(user)));
         }
 
         req.user = user;

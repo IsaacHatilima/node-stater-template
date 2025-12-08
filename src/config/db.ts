@@ -12,7 +12,6 @@ const connectDB = async () => {
     try {
         await prisma.$connect();
     } catch (error: any) {
-        console.error(error.message);
         process.exit(1);
     }
 }
