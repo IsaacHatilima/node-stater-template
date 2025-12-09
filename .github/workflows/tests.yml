@@ -64,6 +64,9 @@ jobs:
           echo "REDIS_PORT=6379" >> .env.test
           echo "GOOGLE_CLIENT_ID=dummy" >> .env.test
           echo "GOOGLE_CLIENT_SECRET=dummy" >> .env.test
+          echo "MAIL_HOST=0.0.0.0" >> .env.test
+          echo "MAIL_PORT=1025" >> .env.test
+          echo "MAIL_FROM='API Demo <noreply@demo.com>'" >> .env.test
 
       - name: Run migrations for dev/public schema
         run: npx dotenv -e .env.development -- npx prisma migrate deploy
