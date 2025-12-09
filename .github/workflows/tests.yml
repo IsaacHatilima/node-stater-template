@@ -48,7 +48,9 @@ jobs:
 
       - name: Create .env.development
         run: |
-          echo "NODE_ENV=local" >> .env.development
+          echo "APP_ENV=development" >> .env.development
+          echo "DATABASE_URL=postgresql://postgres:postgres@localhost:5432/node_starter_template?schema=public" >> .env.development
+
 
       - name: Create .env.test
         run: |
@@ -63,7 +65,10 @@ jobs:
           echo "GOOGLE_CLIENT_ID=dummy" >> .env.test
           echo "GOOGLE_CLIENT_SECRET=dummy" >> .env.test
 
-      - name: Run Prisma migrations
+      - name: Run migrations for dev/public schema
+        run: npx dotenv -e .env.development -- npx prisma migrate deploy
+
+      - name: Run migrations for test schema
         run: npx dotenv -e .env.test -- npx prisma migrate deploy
 
       - name: Generate Prisma Client
