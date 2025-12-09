@@ -1,0 +1,534 @@
+{
+  "info": {
+    "_postman_id": "b3cfb002-96c6-49fb-92f8-9c117f31b6db",
+    "name": "Node Starter API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "id": "97a7d705-5f25-423e-9315-107136e16640",
+      "name": "Auth",
+      "item": [
+        {
+          "id": "14bccc6e-1818-4aa3-8768-8a15cc31ddc1",
+          "name": "Change Password",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"password\": \"Password12#\",\n  \"password_confirm\": \"Password12#\"\n}",
+              "options": {
+                "raw": {
+                  "language": "text"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{BaseURL}}/auth/change-password",
+              "host": [
+                "{{BaseURL}}"
+              ],
+              "path": [
+                "auth",
+                "change-password"
+              ],
+              "protocol": "https",
+              "query": [
+                {
+                  "key": "token",
+                  "value": "TOKEN",
+                  "disabled": false
+                }
+              ]
+            }
+          },
+          "response": [],
+          "event": []
+        },
+        {
+          "id": "8b73016b-7cf7-42d4-9368-17ecee19a876",
+          "name": "Forgot Password",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"test@mail.com\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{BaseURL}}/auth/forgot-password",
+              "host": [
+                "{{BaseURL}}"
+              ],
+              "path": [
+                "auth",
+                "forgot-password"
+              ],
+              "protocol": "https"
+            }
+          },
+          "response": [],
+          "event": []
+        },
+        {
+          "id": "a814e459-930e-41c9-9f46-76c38f95805f",
+          "name": "Google Auth",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id_token\": \"eyJhbGciOiJSUzI1NiIsImtpZCI6ImQ1NDNlMjFhMDI3M2VmYzY2YTQ3NTAwMDI0NDFjYjIxNTFjYjIzNWYiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL2FjY291bnRzLmdvb2dsZS5jb20iLCJhenAiOiIyNTQ1ODc5NTMxNi0yazJyMWtsZWFxbTBsaDh1NDcyZG9zMW4wYjdnZDA5ay5hcHBzLmdvb2dsZXVzZXJjb250ZW50LmNvbSIsImF1ZCI6IjI1NDU4Nzk1MzE2LTJrMnIxa2xlYXFtMGxoOHU0NzJkb3MxbjBiN2dkMDlrLmFwcHMuZ29vZ2xldXNlcmNvbnRlbnQuY29tIiwic3ViIjoiMTA4MTgwMTYyMDk4MzM5MjgwOTk5IiwiZW1haWwiOiJpc2FhY2hhdGlsaW1hQGdtYWlsLmNvbSIsImVtYWlsX3ZlcmlmaWVkIjp0cnVlLCJhdF9oYXNoIjoidUhmTFU4UG5NQnB4VGQ5TUloUlNqdyIsIm5hbWUiOiJJc2FhYyBIYXRpbGltYSIsInBpY3R1cmUiOiJodHRwczovL2xoMy5nb29nbGV1c2VyY29udGVudC5jb20vYS9BQ2c4b2NKTHNZYUN4OXVQQ1JYZTFDQms1LTA2ZllOYi16Z0h4SlVjNGJoYll5TThhcVRNeDBPa0NnPXM5Ni1jIiwiZ2l2ZW5fbmFtZSI6IklzYWFjIiwiZmFtaWx5X25hbWUiOiJIYXRpbGltYSIsImlhdCI6MTc2NTExMDY4NCwiZXhwIjoxNzY1MTE0Mjg0fQ.pltbm8se5tGA3V5-VgbjUSPe6pd4_N_rlaA0aJvlxUaYGLTpaLntdnRINjyHkUXo98BomGo-OTO880geWh_Nhv8_0FWj7mIBIHGym9MCWrOIEt406IvnYBTL_PCm-iRAX2QI3QBtPYOWeAsnzvhe1P9KwQenrNUNYWKmILOFWQ3GOPQG7q8kU2mwHOVC2cCkAyWobnkd9uSfxNvnJ1Y5YjkgZ_kXyv788DV_3yNCZyAsG-qOEge8d1LSrejQ0mCtM0thsMtdR9XeXBhufVXHr9oT66pXXrY1Cd5qliXly7cH4hnTggKGAudHyDMbb3xTb95WCOKBJLzoDP7i9jn7Yw\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{BaseURL}}/auth/google",
+              "host": [
+                "{{BaseURL}}"
+              ],
+              "path": [
+                "auth",
+                "google"
+              ],
+              "protocol": "https"
+            }
+          },
+          "response": [],
+          "event": []
+        },
+        {
+          "id": "251ff67c-fb92-4017-9f89-c66f74cad9ee",
+          "name": "Login",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"test@mail.com\",\n  \"password\": \"Password1#\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{BaseURL}}/auth/login",
+              "host": [
+                "{{BaseURL}}"
+              ],
+              "path": [
+                "auth",
+                "login"
+              ],
+              "protocol": "https"
+            }
+          },
+          "response": [],
+          "event": []
+        },
+        {
+          "id": "4127bb68-1bd1-434d-a9ae-fa215a434653",
+          "name": "Logout",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{BaseURL}}/auth/logout",
+              "host": [
+                "{{BaseURL}}"
+              ],
+              "path": [
+                "auth",
+                "logout"
+              ],
+              "protocol": "https"
+            }
+          },
+          "response": [],
+          "event": []
+        },
+        {
+          "id": "b22fc16c-c77c-4de5-bcff-e0e4d34c82c6",
+          "name": "Me",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{BaseURL}}/auth/me",
+              "host": [
+                "{{BaseURL}}"
+              ],
+              "path": [
+                "auth",
+                "me"
+              ],
+              "protocol": "https"
+            }
+          },
+          "response": [],
+          "event": []
+        },
+        {
+          "id": "0cadc3db-c5f1-4704-a1df-6641e756edb7",
+          "name": "Refresh Tokens",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{BaseURL}}/auth/refresh-tokens",
+              "host": [
+                "{{BaseURL}}"
+              ],
+              "path": [
+                "auth",
+                "refresh-tokens"
+              ],
+              "protocol": "https"
+            }
+          },
+          "response": [],
+          "event": []
+        },
+        {
+          "id": "82d14599-b21e-4c63-af16-a85369629d76",
+          "name": "Register User",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"first_name\": \"Jack\",\n  \"last_name\": \"Mwanza\",\n  \"email\": \"test@mail.com\",\n  \"password\": \"Password1#\",\n  \"password_confirm\": \"Password1#\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{BaseURL}}/auth/register",
+              "host": [
+                "{{BaseURL}}"
+              ],
+              "path": [
+                "auth",
+                "register"
+              ],
+              "protocol": "https"
+            }
+          },
+          "response": [],
+          "event": []
+        },
+        {
+          "id": "a6cf8aee-b8f8-4429-ba0f-cba4764b95c3",
+          "name": "Verify 2FA",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"challenge_id\": \"dd608d1a-3871-4d19-ae3f-e3c53c166302\",\n  \"code\" : \"158198\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{BaseURL}}/auth/2fa/verify",
+              "host": [
+                "{{BaseURL}}"
+              ],
+              "path": [
+                "auth",
+                "2fa",
+                "verify"
+              ],
+              "protocol": "https"
+            }
+          },
+          "response": [],
+          "event": []
+        },
+        {
+          "id": "5dd4684a-4486-4d45-8d8c-4fc1101fd02f",
+          "name": "Verify Change Password Token",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{BaseURL}}/auth/check-password-reset-token",
+              "host": [
+                "{{BaseURL}}"
+              ],
+              "path": [
+                "auth",
+                "check-password-reset-token"
+              ],
+              "protocol": "https",
+              "query": [
+                {
+                  "key": "token",
+                  "value": "TOKEN",
+                  "disabled": false
+                }
+              ]
+            }
+          },
+          "response": [],
+          "event": []
+        },
+        {
+          "id": "a232279c-c730-43aa-b580-4e693881605a",
+          "name": "Verify Email",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{BaseURL}}/auth/verify-email",
+              "host": [
+                "{{BaseURL}}"
+              ],
+              "path": [
+                "auth",
+                "verify-email"
+              ],
+              "protocol": "https",
+              "query": [
+                {
+                  "key": "token",
+                  "value": "TOEKN",
+                  "disabled": false
+                }
+              ]
+            }
+          },
+          "response": [],
+          "event": []
+        }
+      ],
+      "variable": []
+    },
+    {
+      "id": "be1f6ebb-6f3f-4605-b434-2ed42f50627a",
+      "name": "Settings",
+      "item": [
+        {
+          "id": "02fd7283-9c62-4f8a-9b9d-7cccd509de1b",
+          "name": "2FA Init",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{BaseURL}}/settings/2fa/setup",
+              "host": [
+                "{{BaseURL}}"
+              ],
+              "path": [
+                "settings",
+                "2fa",
+                "setup"
+              ],
+              "protocol": "https"
+            }
+          },
+          "response": [],
+          "event": []
+        },
+        {
+          "id": "467deed8-0b94-4086-bef4-05dfe18785d3",
+          "name": "Delete Account",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"password\" : \"Password1#\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{BaseURL}}/settings/delete-account",
+              "host": [
+                "{{BaseURL}}"
+              ],
+              "path": [
+                "settings",
+                "delete-account"
+              ],
+              "protocol": "https"
+            }
+          },
+          "response": [],
+          "event": []
+        },
+        {
+          "id": "0155f4f7-afff-43f2-bd1c-16f0c4db58d5",
+          "name": "Disable 2FA",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"token\" : \"593702\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{BaseURL}}/settings/2fa/disable",
+              "host": [
+                "{{BaseURL}}"
+              ],
+              "path": [
+                "settings",
+                "2fa",
+                "disable"
+              ],
+              "protocol": "https"
+            }
+          },
+          "response": [],
+          "event": []
+        },
+        {
+          "id": "4351106e-e637-427a-8190-d699c8501a65",
+          "name": "Enable 2FA",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"token\" : \"775727\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{BaseURL}}/settings/2fa/enable",
+              "host": [
+                "{{BaseURL}}"
+              ],
+              "path": [
+                "settings",
+                "2fa",
+                "enable"
+              ],
+              "protocol": "https"
+            }
+          },
+          "response": [],
+          "event": []
+        },
+        {
+          "id": "22ac1844-0afc-4a26-9f55-5b8ca4bb4559",
+          "name": "Regenerate 2FA Codes",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{BaseURL}}/settings/2fa/regenerate",
+              "host": [
+                "{{BaseURL}}"
+              ],
+              "path": [
+                "settings",
+                "2fa",
+                "regenerate"
+              ],
+              "protocol": "https"
+            }
+          },
+          "response": [],
+          "event": []
+        },
+        {
+          "id": "d78711cc-3189-4b1b-824f-fcef148ee583",
+          "name": "Update Password",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"current_password\" : \"Password1#\",\n  \"password\" : \"Password1#\",\n  \"password_confirm\" : \"Password1#\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{BaseURL}}/settings/update-password",
+              "host": [
+                "{{BaseURL}}"
+              ],
+              "path": [
+                "settings",
+                "update-password"
+              ],
+              "protocol": "https"
+            }
+          },
+          "response": [],
+          "event": []
+        },
+        {
+          "id": "e1e23711-7e3d-4b61-8d80-758182bc8102",
+          "name": "Update Profile",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"first_name\" : \"Jack\",\n  \"last_name\" : \"Mwanza\",\n  \"email\" : \"test3@mail.com\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{BaseURL}}/settings/update-profile",
+              "host": [
+                "{{BaseURL}}"
+              ],
+              "path": [
+                "settings",
+                "update-profile"
+              ],
+              "protocol": "https"
+            }
+          },
+          "response": [],
+          "event": []
+        }
+      ],
+      "variable": []
+    }
+  ],
+  "variable": [
+    {
+      "id": "d6265d0f-4e21-4b12-a4e9-fb8bf42438e0",
+      "key": "BaseURL",
+      "value": "127.0.0.1:3000",
+      "type": "default"
+    }
+  ]
+}

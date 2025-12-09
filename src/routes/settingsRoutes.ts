@@ -19,7 +19,7 @@ router.put("/update-profile", UpdateProfileController)
 router.post("/delete-account", DeleteAccountController);
 
 // Two-Factor Authentication (2FA) settings
-router.get("/2fa/setup", TwoFASetupController);
+router.post("/2fa/setup", TwoFASetupController);
 router.post("/2fa/enable", TwoFAEnableController);
 router.post("/2fa/disable", TwoFADisableController);
 router.post("/2fa/regenerate", TwoFARegenerateCodesController);

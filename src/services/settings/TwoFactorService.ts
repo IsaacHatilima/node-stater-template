@@ -53,7 +53,7 @@ export class TwoFactorService {
         return {enabled: true, backup_codes: backupCodes};
     }
 
-    async disable(data: { code?: string; backup_code?: string }, reqUser: { id: string }) {
+    async disableMFA(data: { code?: string; backup_code?: string }, reqUser: { id: string }) {
         const user = await prisma.user.findUnique({where: {id: reqUser.id}});
         if (!user) throw new Error("USER_NOT_FOUND");
 
