@@ -2,6 +2,13 @@ import {connectDB, disconnectDB, prisma} from "../src/config/db";
 import {initRedis} from "../src/config/redis";
 
 
+vi.mock("../src/lib/mail", () => ({
+    mailer: {
+        sendMail: vi.fn().mockResolvedValue(true),
+    },
+    sendMail: vi.fn().mockResolvedValue(true),
+}));
+
 async function resetPostgresDatabase() {
     const tables = await prisma.$queryRaw<
         Array<{ table_name: string }>
