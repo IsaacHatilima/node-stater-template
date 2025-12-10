@@ -27,4 +27,3 @@ export default async function LogoutController(req, res) {
     });
     return res.json({ message: "Logged out." });
 }
-//# sourceMappingURL=LogoutController.js.map

@@ -31,4 +31,3 @@ export async function TwoFactorChallengeController(req, res) {
         return res.status(500).json({ error: "Something went wrong." });
     }
 }
-//# sourceMappingURL=TwoFactorChallengeController.js.map

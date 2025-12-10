@@ -13,7 +13,7 @@ services:
     command: >
       sh -c "
       npx prisma migrate deploy &&
-      node dist/server.js
+      node --experimental-specifier-resolution=node dist/server.js
       "
 
   postgres:

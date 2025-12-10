@@ -11,10 +11,9 @@ export function generateAccessToken(payload) {
         jti: randomUUID(),
     }, accessSecret, { expiresIn: accessExpires });
 }
-export function generateRefreshToken(payload) {
+export function generateRefreshToken({ id }) {
     return jwt.sign({
-        ...payload,
+        id,
         jti: randomUUID(),
     }, refreshSecret, { expiresIn: refreshExpires });
 }
-//# sourceMappingURL=jwt.js.map

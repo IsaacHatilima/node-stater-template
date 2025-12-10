@@ -17,4 +17,3 @@ export function setAuthCookies(res, tokens) {
         maxAge: accessMaxAge,
     });
 }
-//# sourceMappingURL=set-auth-cookies.js.map

@@ -42,4 +42,3 @@ export function setupSwagger(app) {
     });
     app.use("/docs", swaggerUi.serve, swaggerUi.setup(spec, { explorer: true }));
 }
-//# sourceMappingURL=swagger.js.map

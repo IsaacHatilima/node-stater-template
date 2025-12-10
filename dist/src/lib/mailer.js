@@ -68,4 +68,3 @@ export function buildEmailTemplate({ name, message, url, buttonText, }) {
     </div>
     `;
 }
-//# sourceMappingURL=mailer.js.map

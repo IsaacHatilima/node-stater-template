@@ -41,4 +41,3 @@ export default async function RegisterController(req, res) {
         });
     }
 }
-//# sourceMappingURL=RegisterController.js.map

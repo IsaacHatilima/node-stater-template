@@ -171,4 +171,3 @@ router.post("/2fa/enable", TwoFAEnableController);
 router.post("/2fa/disable", TwoFADisableController);
 router.post("/2fa/regenerate", TwoFARegenerateCodesController);
 export default router;
-//# sourceMappingURL=settingsRoutes.js.map

@@ -11,4 +11,3 @@ export class MeService {
         return toSafeUser(user);
     }
 }
-//# sourceMappingURL=MeService.js.map

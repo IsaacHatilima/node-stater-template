@@ -5,4 +5,3 @@ const router = Router();
 router.use("/auth", authRoutes);
 router.use("/settings", settingsRoutes);
 export default router;
-//# sourceMappingURL=routes.js.map

@@ -1,1 +1,0 @@
-{"version":3,"file":"safe-user.js","sourceRoot":"","sources":["../../../src/lib/safe-user.ts"],"names":[],"mappings":"AAGA,MAAM,UAAU,UAAU,CAAC,IAAyC;IAChE,MAAM,EACF,QAAQ,EACR,iBAAiB,EACjB,yBAAyB,EACzB,GAAG,IAAI,EACV,GAAG,IAAI,CAAC;IAET,OAAO;QACH,GAAG,IAAI;QACP,OAAO,EAAE,IAAI,CAAC,OAAO,IAAI,IAAI;KAChC,CAAC;AACN,CAAC"}

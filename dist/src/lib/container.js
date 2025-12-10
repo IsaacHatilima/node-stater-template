@@ -47,4 +47,3 @@ class Container {
     }
 }
 export const container = new Container();
-//# sourceMappingURL=container.js.map

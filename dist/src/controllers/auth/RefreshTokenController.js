@@ -39,4 +39,3 @@ export default async function RefreshTokenController(req, res) {
         //return res.status(500).json({errors: ["Something went wrong"]});
     }
 }
-//# sourceMappingURL=RefreshTokenController.js.map

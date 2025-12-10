@@ -23,4 +23,3 @@ export default async function DeleteAccountController(req, res) {
         return res.status(500).json({ error: "Something went wrong." });
     }
 }
-//# sourceMappingURL=DeleteAccountController.js.map

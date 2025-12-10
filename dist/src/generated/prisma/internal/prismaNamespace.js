@@ -130,4 +130,3 @@ export const NullsOrder = {
     last: 'last'
 };
 export const defineExtension = runtime.Extensions.defineExtension;
-//# sourceMappingURL=prismaNamespace.js.map

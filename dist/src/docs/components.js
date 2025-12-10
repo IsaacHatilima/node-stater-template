@@ -1,4 +1,4 @@
-export {};
+"use strict";
 /**
  * @openapi
  * tags:
@@ -115,4 +115,3 @@ export {};
  *           schema:
  *             $ref: '#/components/schemas/ErrorResponse'
  */
-//# sourceMappingURL=components.js.map

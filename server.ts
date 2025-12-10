@@ -1,7 +1,7 @@
 import "dotenv/config";
-import {createApp} from "./app";
-import {connectDB, disconnectDB} from "./src/config/db";
-import {initRedis} from "./src/config/redis";
+import {createApp} from "./app.js";
+import {connectDB, disconnectDB} from "@/config/db.js";
+import {initRedis} from "@/config/redis.js";
 
 (async () => {
     try {

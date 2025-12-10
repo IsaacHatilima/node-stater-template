@@ -5,4 +5,3 @@ export function toSafeUser(user) {
         profile: user.profile ?? null,
     };
 }
-//# sourceMappingURL=safe-user.js.map

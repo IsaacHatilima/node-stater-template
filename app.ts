@@ -1,7 +1,7 @@
 import express from "express";
-import router from "./src/routes/routes";
+import router from "./src/routes/routes.js";
 import cookieParser from "cookie-parser";
-import {setupSwagger} from "./src/config/swagger";
+import {setupSwagger} from "@/config/swagger.js";
 
 export function createApp() {
     const app = express();

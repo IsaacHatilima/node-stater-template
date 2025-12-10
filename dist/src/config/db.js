@@ -17,4 +17,3 @@ const disconnectDB = async () => {
     await prisma.$disconnect();
 };
 export { prisma, connectDB, disconnectDB };
-//# sourceMappingURL=db.js.map

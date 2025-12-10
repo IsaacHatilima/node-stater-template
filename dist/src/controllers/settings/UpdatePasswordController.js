@@ -34,4 +34,3 @@ export default async function UpdatePasswordController(req, res) {
         return res.status(500).json({ error: "Something went wrong." });
     }
 }
-//# sourceMappingURL=UpdatePasswordController.js.map

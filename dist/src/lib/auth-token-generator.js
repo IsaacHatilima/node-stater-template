@@ -20,4 +20,3 @@ export async function generateAuthToken({ id, email }) {
         "jti": jti
     };
 }
-//# sourceMappingURL=auth-token-generator.js.map

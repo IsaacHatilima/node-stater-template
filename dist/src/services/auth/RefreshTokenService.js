@@ -19,7 +19,6 @@ export class RefreshTokenService {
         }
         const newRefresh = generateRefreshToken({
             id: decoded.id,
-            email: decoded.email
         });
         const newAccess = generateAccessToken({
             id: decoded.id,
@@ -52,4 +51,3 @@ export class RefreshTokenService {
         };
     }
 }
-//# sourceMappingURL=RefreshTokenService.js.map

@@ -15,4 +15,3 @@ export default async function MeController(req, res) {
         });
     }
 }
-//# sourceMappingURL=MeController.js.map

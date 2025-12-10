@@ -15,4 +15,3 @@ export function normalizeName(name) {
 export function normalizeEmail(email) {
     return email.trim().toLowerCase();
 }
-//# sourceMappingURL=string.js.map

@@ -10,4 +10,3 @@ export async function initRedis() {
         await redis.connect();
     }
 }
-//# sourceMappingURL=redis.js.map

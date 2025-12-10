@@ -21,4 +21,3 @@ export default async function VerifyEmailController(req, res) {
         return res.status(500).json({ error: "Something went wrong" });
     }
 }
-//# sourceMappingURL=VerifyEmailController.js.map

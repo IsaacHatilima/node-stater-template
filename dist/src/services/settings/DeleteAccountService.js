@@ -32,4 +32,3 @@ export class DeleteAccountService {
         }
     }
 }
-//# sourceMappingURL=DeleteAccountService.js.map

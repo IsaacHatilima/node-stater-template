@@ -60,4 +60,3 @@ export async function TwoFARegenerateCodesController(req, res) {
         return res.status(500).json({ error: "Something went wrong." });
     }
 }
-//# sourceMappingURL=TwoFactorController.js.map

@@ -57,4 +57,3 @@ export async function AuthMiddleware(req, res, next) {
         return res.status(401).json({ errors: ["Invalid or expired session"] });
     }
 }
-//# sourceMappingURL=authMiddleware.js.map

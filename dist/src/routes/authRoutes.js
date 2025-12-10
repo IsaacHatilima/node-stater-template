@@ -286,4 +286,3 @@ router.post("/change-password", ChangePasswordController);
 router.post("/2fa/verify", AuthLimiter, TwoFactorChallengeController);
 router.post("/google", AuthLimiter, GoogleLoginController);
 export default router;
-//# sourceMappingURL=authRoutes.js.map

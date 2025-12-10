@@ -12,6 +12,8 @@
     "noImplicitAny": true,
     "skipLibCheck": true,
     "baseUrl": ".",
+    "outDir": "dist",
+    "rootDir": ".",
     "paths": {
       "@/*": [
         "./src/*"
@@ -23,7 +25,13 @@
     ]
   },
   "include": [
+    "server.ts",
+    "app.ts",
     "src/**/*.ts",
     "src/**/*.d.ts"
+  ],
+  "exclude": [
+    "dist",
+    "node_modules"
   ]
 }

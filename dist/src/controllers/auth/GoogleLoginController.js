@@ -44,4 +44,3 @@ export default async function GoogleLoginController(req, res) {
         return res.status(500).json({ error: "Something went wrong" });
     }
 }
-//# sourceMappingURL=GoogleLoginController.js.map

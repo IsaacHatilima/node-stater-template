@@ -1,5 +1,5 @@
 import "dotenv/config";
-import { createApp } from "./app";
+import { createApp } from "./app.js";
 import { connectDB, disconnectDB } from "./src/config/db";
 import { initRedis } from "./src/config/redis";
 (async () => {
@@ -33,4 +33,3 @@ import { initRedis } from "./src/config/redis";
         process.exit(1);
     }
 })();
-//# sourceMappingURL=server.js.map
