@@ -48,8 +48,8 @@ describe("POST /settings/delete-account", () => {
                 password: "WrongPassword#"
             });
 
-        expect(res.status).toBe(401);
-        expect(res.body.errors).toContain("Invalid Password.");
+        expect(res.status).toBe(400);
+        expect(res.body.errors).toContain("Invalid password.");
     });
 
     it("user cannot delete account without password", async () => {

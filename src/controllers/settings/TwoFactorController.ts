@@ -1,7 +1,7 @@
 import {container} from "../../lib/container";
-import {Request, Response} from "express";
+import {NextFunction, Request, Response} from "express";
 
-export async function TwoFASetupController(req: Request, res: Response) {
+export async function TwoFASetupController(req: Request, res: Response, next: NextFunction) {
     try {
         const result = await container.twoFactorService.initiateSetup(req);
         return res.json({
@@ -9,14 +9,11 @@ export async function TwoFASetupController(req: Request, res: Response) {
             ...result,
         });
     } catch (error: any) {
-        const msg = error.message;
-        if (msg === "USER_NOT_FOUND")
-            return res.status(404).json({errors: ["User not found."]});
-        return res.status(500).json({error: "Something went wrong."});
+        next(error);
     }
 }
 
-export async function TwoFAEnableController(req: Request, res: Response) {
+export async function TwoFAEnableController(req: Request, res: Response, next: NextFunction) {
     try {
         const {code} = req.body;
         if (!code)
@@ -24,40 +21,25 @@ export async function TwoFAEnableController(req: Request, res: Response) {
         const result = await container.twoFactorService.verifyAndEnable({code}, req);
         return res.json({message: "2FA enabled", ...result});
     } catch (error: any) {
-        const msg = error.message;
-        if (msg === "TFA_SETUP_NOT_FOUND")
-            return res.status(400).json({errors: ["Setup not found or expired."]});
-        if (msg === "INVALID_TFA_TOKEN")
-            return res.status(400).json({errors: ["Invalid 2FA token."]});
-        return res.status(500).json({error: "Something went wrong."});
+        next(error);
     }
 }
 
-export async function TwoFADisableController(req: Request, res: Response) {
+export async function TwoFADisableController(req: Request, res: Response, next: NextFunction) {
     try {
         const {code, backup_code} = req.body;
         const result = await container.twoFactorService.disableMFA({code, backup_code}, req);
         return res.json({message: "2FA disabled", ...result});
     } catch (error: any) {
-        const msg = error.message;
-        if (msg === "USER_NOT_FOUND")
-            return res.status(404).json({errors: ["User not found."]});
-        if (msg === "INVALID_TFA_VERIFICATION")
-            return res.status(400).json({errors: ["Invalid token or backup code."]});
-        return res.status(500).json({error: "Something went wrong."});
+        next(error);
     }
 }
 
-export async function TwoFARegenerateCodesController(req: Request, res: Response) {
+export async function TwoFARegenerateCodesController(req: Request, res: Response, next: NextFunction) {
     try {
         const result = await container.twoFactorService.regenerateBackupCodes(req);
         return res.json({message: "Backup codes regenerated", ...result});
     } catch (error: any) {
-        const msg = error.message;
-        if (msg === "USER_NOT_FOUND")
-            return res.status(404).json({errors: ["User not found."]});
-        if (msg === "TFA_NOT_ENABLED")
-            return res.status(400).json({errors: ["2FA is not enabled."]});
-        return res.status(500).json({error: "Something went wrong."});
+        next(error);
     }
 }

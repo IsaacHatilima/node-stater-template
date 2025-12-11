@@ -34,7 +34,7 @@ describe("PUT /settings/update-password", () => {
             });
 
         expect(res.status).toBe(400);
-        expect(res.body.errors).toContain("Invalid Password.");
+        expect(res.body.errors).toContain("Invalid password.");
     });
 
     it("user cannot update password with mismatched passwords", async () => {

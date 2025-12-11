@@ -1,9 +1,9 @@
 import "dotenv/config";
 import {container} from "../../lib/container";
-import {Request, Response} from "express";
+import {NextFunction, Request, Response} from "express";
 import {setAuthCookies} from "../../lib/set-auth-cookies";
 
-export default async function RefreshTokenController(req: Request, res: Response) {
+export default async function RefreshTokenController(req: Request, res: Response, next: NextFunction) {
     try {
         const refreshToken = req.cookies?.refresh_token as string;
         if (!refreshToken) {
@@ -20,13 +20,6 @@ export default async function RefreshTokenController(req: Request, res: Response
             message: "Token refreshed",
         });
     } catch (error: any) {
-        if (error.message === "INVALID_OR_EXPIRED_REFRESH_TOKEN") {
-            return res.status(401).json({errors: ["Invalid or expired refresh token"]});
-        }
-        return res.status(500).json({
-            error: error.message,
-            stack: error.stack,
-        });
-        //return res.status(500).json({errors: ["Something went wrong"]});
+        next(error);
     }
 }

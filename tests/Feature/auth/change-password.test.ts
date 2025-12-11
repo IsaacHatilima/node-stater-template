@@ -122,6 +122,6 @@ describe("POST /auth/change-password", () => {
             });
 
         expect(res.status).toBe(400);
-        expect(res.body.errors).toContain("Invalid or expired token.");
+        expect(res.body.errors).toBe("Invalid or expired token.");
     });
 });

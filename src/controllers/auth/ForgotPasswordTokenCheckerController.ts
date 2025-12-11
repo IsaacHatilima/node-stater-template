@@ -1,22 +1,17 @@
 import {container} from "../../lib/container";
-import {Request, Response} from "express";
+import {NextFunction, Request, Response} from "express";
 
-export default async function ForgotPasswordTokenCheckerController(req: Request, res: Response) {
+export default async function ForgotPasswordTokenCheckerController(req: Request, res: Response, next: NextFunction) {
     const token = req.query.token as string;
+
     if (!token) {
-        return res.status(400).json({error: "Missing Token"});
+        return res.status(400).json({errors: "Missing Token"});
     }
+
     try {
         const result = await container.forgotPasswordTokenCheckerService.checkPasswordToken(token);
         return res.json(result);
     } catch (error) {
-        if (error instanceof Error && error.message === "INVALID_PASSWORD_TOKEN") {
-            return res.status(404).json({
-                errors: ["Invalid Token Provided."],
-            });
-        }
-        return res.status(500).json({
-            error: "Something went wrong."
-        });
+        next(error);
     }
 }

@@ -94,7 +94,7 @@
  *       properties:
  *         error:
  *           type: string
- *           example: "Something went wrong"
+ *           example: "Internal server error"
  *         errors:
  *           type: array
  *           items:

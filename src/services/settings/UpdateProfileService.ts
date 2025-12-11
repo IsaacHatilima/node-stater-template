@@ -3,12 +3,19 @@ import {normalizeEmail, normalizeName} from "../../utils/string";
 import {redis} from "../../config/redis";
 import {toSafeUser} from "../../lib/safe-user";
 import {Request} from "express";
+import {EmailTakenError, UpdateProfileError, UserNotFoundError} from "../../lib/errors";
 
 export class UpdateProfileService {
-    async updateProfile(data: { email: string; first_name: string, last_name: string }, reqUser: Request) {
+    async updateProfile(
+        data: { email: string; first_name: string; last_name: string },
+        reqUser: Request
+    ) {
         const emailChanged = data.email !== reqUser.user.email;
+
+        let updatedUser;
+
         try {
-            const updatedUser = await prisma.user.update({
+            updatedUser = await prisma.user.update({
                 where: {id: reqUser.user.id},
                 data: {
                     email: normalizeEmail(data.email),
@@ -20,17 +27,31 @@ export class UpdateProfileService {
                         },
                     },
                 },
-                include: {
-                    profile: true,
-                },
+                include: {profile: true},
             });
-            await redis.setEx(`user:${updatedUser.id}`, 60 * 5, JSON.stringify(toSafeUser(updatedUser)));
-            return {success: true};
         } catch (error: any) {
             if (error.code === "P2025") {
-                throw new Error("USER_NOT_FOUND");
+                throw new UserNotFoundError();
             }
-            throw error;
+
+            if (error.code === "P2002") {
+                throw new EmailTakenError();
+            }
+
+            throw new UpdateProfileError();
         }
+
+        try {
+            await redis.setEx(
+                `user:${updatedUser.id}`,
+                60 * 5,
+                JSON.stringify(toSafeUser(updatedUser))
+            );
+        } catch {
+
+        }
+
+        return;
     }
+
 }

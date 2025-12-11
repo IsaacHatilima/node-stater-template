@@ -1,9 +1,9 @@
 import "dotenv/config";
 import {container} from "../../lib/container";
 import {setAuthCookies} from "../../lib/set-auth-cookies";
-import {Request, Response} from "express";
+import {NextFunction, Request, Response} from "express";
 
-export default async function GoogleLoginController(req: Request, res: Response) {
+export default async function GoogleLoginController(req: Request, res: Response, next: NextFunction) {
     try {
         const {id_token} = req.body;
         if (!id_token) {
@@ -38,12 +38,6 @@ export default async function GoogleLoginController(req: Request, res: Response)
             refresh: result.tokens!.refresh_token,
         });
     } catch (error) {
-        if (error instanceof Error && (error.message === "GOOGLE_TOKEN_INVALID")) {
-            return res.status(400).json({errors: ["Invalid Google token"]});
-        }
-        if (error instanceof Error && (error.message === "GOOGLE_CLIENT_ID_NOT_SET")) {
-            return res.status(500).json({errors: ["Server misconfiguration: GOOGLE_CLIENT_ID not set"]});
-        }
-        return res.status(500).json({error: "Something went wrong"});
+        next(error);
     }
 }

@@ -54,6 +54,6 @@ describe("POST /auth/logout", () => {
             .set("Cookie", `access_token=${createdData.access_token}`);
 
         expect(res.status).toBe(200);
-        expect(res.body.message).toBe("Logged out");
+        expect(res.body.message).toBe("Logged out.");
     });
 });

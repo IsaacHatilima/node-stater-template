@@ -22,10 +22,20 @@ export class EmailVerificationService {
             throw new Error("USER_NOT_FOUND");
         if (user.email_verified_at)
             throw new Error("ALREADY_VERIFIED");
-        await prisma.user.update({
-            where: {id: decoded.id},
-            data: {email_verified_at: new Date()}
-        });
-        return true;
+
+        try {
+            await prisma.user.update({
+                where: {id: decoded.id},
+                data: {email_verified_at: new Date()}
+            });
+            return true;
+        } catch (error: any) {
+            if (error.code === "P2025") {
+                throw new Error("USER_NOT_FOUND");
+            }
+            throw new Error("SERVER_ERROR");
+        }
+
+
     }
 }

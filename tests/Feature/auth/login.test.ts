@@ -24,7 +24,7 @@ describe("POST /auth/login", () => {
         expect(res.body.refresh_token).toBeDefined();
     });
 
-    it("returns 404 for non-existent user", async () => {
+    it("returns 400 for non-existent user", async () => {
         const res = await request(app)
             .post("/auth/login")
             .send({
@@ -32,11 +32,11 @@ describe("POST /auth/login", () => {
                 password: "Password1#",
             });
 
-        expect(res.status).toBe(404);
-        expect(res.body.errors).toContain("Invalid Email or Password");
+        expect(res.status).toBe(400);
+        expect(res.body.errors).toContain("Invalid Email or Password.");
     });
 
-    it("returns 404 for incorrect password", async () => {
+    it("returns 400 for incorrect password", async () => {
         const user = await createPublicUser();
 
         const res = await request(app)
@@ -46,8 +46,8 @@ describe("POST /auth/login", () => {
                 password: "WrongPassword1#",
             });
 
-        expect(res.status).toBe(404);
-        expect(res.body.errors).toContain("Invalid Email or Password");
+        expect(res.status).toBe(400);
+        expect(res.body.errors).toContain("Invalid Email or Password.");
     });
 
     it("returns 2FA challenge when two-factor is enabled", async () => {

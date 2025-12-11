@@ -115,7 +115,7 @@ describe("POST /auth/2fa/verify", () => {
             });
 
         expect(res.status).toBe(400);
-        expect(res.body.errors).toContain("Challenge not found or expired.");
+        expect(res.body.errors).toContain("Two-factor challenge not found.");
     });
 
     it("returns 400 for invalid 2FA code", async () => {
@@ -151,6 +151,6 @@ describe("POST /auth/2fa/verify", () => {
             });
 
         expect(res.status).toBe(400);
-        expect(res.body.errors).toContain("Invalid 2FA token or code.");
+        expect(res.body.errors).toContain("Invalid two-factor authentication code.");
     });
 });

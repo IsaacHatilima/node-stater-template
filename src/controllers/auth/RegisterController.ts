@@ -1,6 +1,6 @@
 import {z} from "zod";
 import {container} from "../../lib/container";
-import {Request, Response} from "express";
+import {NextFunction, Request, Response} from "express";
 
 const registerSchema = z.object({
     first_name: z.string().min(2),
@@ -18,7 +18,7 @@ const registerSchema = z.object({
     message: "Passwords do not match",
     path: ["password_confirm"],
 });
-export default async function RegisterController(req: Request, res: Response) {
+export default async function RegisterController(req: Request, res: Response, next: NextFunction) {
     try {
         const parsed = registerSchema.safeParse(req.body);
         if (!parsed.success) {
@@ -32,14 +32,6 @@ export default async function RegisterController(req: Request, res: Response) {
             user,
         });
     } catch (error: any) {
-        if (error.message === "EMAIL_TAKEN") {
-            return res.status(400).json({
-                errors: ["Email is already in use"],
-            });
-        }
-        console.log(error);
-        return res.status(500).json({
-            error: "Something went wrong",
-        });
+        next(error);
     }
 }

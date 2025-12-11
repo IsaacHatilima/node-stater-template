@@ -96,7 +96,7 @@ describe("POST /auth/refresh-tokens", () => {
             .post("/auth/refresh-tokens")
             .set("Cookie", [`access_token=${access_token}`, `refresh_token=${refresh_token}`]);
 
-        expect(res.status).toBe(401);
+        expect(res.status).toBe(400);
         expect(res.body.errors).toBeDefined();
     });
 });

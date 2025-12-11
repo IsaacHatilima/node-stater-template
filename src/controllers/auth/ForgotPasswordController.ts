@@ -1,11 +1,11 @@
 import {z} from "zod";
 import {container} from "../../lib/container";
-import {Request, Response} from "express";
+import {NextFunction, Request, Response} from "express";
 
 const forgotPasswordSchema = z.object({
     email: z.email(),
 });
-export default async function ForgotPasswordController(req: Request, res: Response) {
+export default async function ForgotPasswordController(req: Request, res: Response, next: NextFunction) {
     try {
         const parsed = forgotPasswordSchema.safeParse(req.body);
         if (!parsed.success) {
@@ -19,14 +19,6 @@ export default async function ForgotPasswordController(req: Request, res: Respon
             message: "A reset link has been sent to your email.",
         });
     } catch (error: any) {
-        if (error.message === "USER_NOT_FOUND") {
-            return res.status(404).json({
-                errors: ["User with this email not found."],
-            });
-        }
-        console.log(error);
-        return res.status(500).json({
-            error: "Something went wrong.",
-        });
+        next(error);
     }
 }

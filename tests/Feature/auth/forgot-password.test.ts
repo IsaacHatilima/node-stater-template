@@ -28,7 +28,7 @@ describe("POST /auth/forgot-password", () => {
 
         expect(resetToken).toBeDefined();
     });
-    
+
     it("returns 404 for non-existent email", async () => {
         const res = await request(app)
             .post("/auth/forgot-password")
@@ -37,7 +37,7 @@ describe("POST /auth/forgot-password", () => {
             });
 
         expect(res.status).toBe(404);
-        expect(res.body.errors).toContain("User with this email not found.");
+        expect(res.body.errors).toBe("User not found.");
     });
 
     it("returns 422 for invalid email format", async () => {

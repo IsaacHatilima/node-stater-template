@@ -2,7 +2,7 @@ services:
   api:
     build: .
     container_name: node-api
-    env_file: .env
+    env_file: .env.development
     depends_on:
       postgres:
         condition: service_healthy

@@ -1,5 +1,6 @@
 import bcrypt from "bcrypt";
 import {prisma} from "../../config/db";
+import {AppError, InvalidPasswordTokenError, UserNotFoundError} from "../../lib/errors";
 
 export class ChangePasswordService {
     async changePassword(data: { token: string, password: string }) {
@@ -7,23 +8,32 @@ export class ChangePasswordService {
             where: {token: data.token}
         });
         if (!passwordToken) {
-            throw new Error("INVALID_PASSWORD_TOKEN");
+            throw new InvalidPasswordTokenError();
         }
+
+        const hashedPassword = await bcrypt.hash(data.password, 10);
         try {
-            const hashedPassword = await bcrypt.hash(data.password, 10);
             await prisma.user.update({
                 where: {id: passwordToken.userId},
                 data: {password: hashedPassword},
             });
+        } catch (error: any) {
+            if (error.code === "P2025") {
+                throw new UserNotFoundError();
+            }
+            throw new AppError("Internal server error");
+        }
+
+        try {
             await prisma.passwordResetToken.delete({
                 where: {token: data.token},
             });
-            return {success: true};
         } catch (error: any) {
             if (error.code === "P2025") {
-                throw new Error("USER_NOT_FOUND");
+                throw new InvalidPasswordTokenError();
             }
-            throw new Error("FAILED_TO_CHANGE_PASSWORD");
+            throw new AppError("Internal server error");
         }
+        return;
     }
 }
