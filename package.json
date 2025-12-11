@@ -46,13 +46,14 @@
     "supertest": "^7.1.4",
     "ts-node": "^10.9.2",
     "tsc-alias": "^1.8.10",
+    "tsup": "^8.5.1",
     "tsx": "^4.20.6",
     "typescript": "^5.9.3",
     "vitest": "^4.0.15"
   },
   "type": "module",
   "scripts": {
-    "build": "tsc",
+    "build": "tsup",
     "postbuild": "tsc-alias",
     "start": "node dist/server.js",
     "dev": "dotenv -e .env.development -- nodemon",

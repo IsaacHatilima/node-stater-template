@@ -31,10 +31,10 @@ export function setupSwagger(app: Express) {
             ],
         },
         apis: [
-            "./src/routes/**/*.js",
-            "./src/controllers/**/*.js",
-            "./src/docs/**/*.js",
-            "./app.js",
+            "./src/routes/**/*.ts",
+            "./src/controllers/**/*.ts",
+            "./src/docs/**/*.ts",
+            "./app.ts",
         ],
     };
     const spec = swaggerJsdoc(options);
