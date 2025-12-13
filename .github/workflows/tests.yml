@@ -56,7 +56,7 @@ jobs:
         run: |
           echo "APP_URL=http://127.0.0.1:3000" >> .env.test
           echo "APP_NAME=Node" >> .env.test
-          echo "APP_ENV=test" >> .env.test
+          echo "NODE_ENV=local" >> .env.test
           echo "APP_KEY=$(openssl rand -hex 32)" >> .env.test
           echo "JWT_ACCESS_SECRET=$(openssl rand -hex 32)" >> .env.test
           echo "JWT_REFRESH_SECRET=$(openssl rand -hex 32)" >> .env.test
