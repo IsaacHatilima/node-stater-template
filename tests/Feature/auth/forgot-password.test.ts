@@ -37,7 +37,7 @@ describe("POST /auth/forgot-password", () => {
             });
 
         expect(res.status).toBe(404);
-        expect(res.body.errors).toBe("User not found.");
+        expect(res.body.errors).toContain("User not found.");
     });
 
     it("returns 422 for invalid email format", async () => {

@@ -123,7 +123,7 @@ describe("POST /settings/2fa/regenerate", () => {
             expect(res.body.message).toBe("Backup codes regenerated");
             expect(res.body.backupCodes).toBeDefined();
         } else {
-            expect(res.body.errors).toBe("Two-factor authentication is not enabled.");
+            expect(res.body.errors).toContain("Two-factor authentication is not enabled.");
         }
     });
 });

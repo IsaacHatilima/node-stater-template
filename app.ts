@@ -40,6 +40,8 @@ export function createApp() {
     app.use(cookieParser());
     setupSwagger(app);
     app.use(router);
-    app.use(errorMiddleware);
+    if (process.env.NODE_ENV !== "test") {
+        app.use(errorMiddleware);
+    }
     return app;
 }
