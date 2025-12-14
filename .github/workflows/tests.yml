@@ -46,31 +46,37 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-
-      - name: Create .env
+      - name: Create .env.development
         run: |
-          echo "APP_NAME=Node" >> .env
-          echo "PORT=3000" >> .env
-          echo "APP_URL=http://127.0.0.1:3000" >> .env
-          echo "NODE_ENV=local" >> .env
-          echo "APP_KEY=b60603dbb0cbfc5b6a971c82065c50d6905ead5a94ab528850d1ec634780d658" >> .env
-          echo "JWT_ACCESS_SECRET=cd83847b0821ca84911b2b5a161bd226efedaafbef8819c16df540202f4a0b7d" >> .env
-          echo "JWT_REFRESH_SECRET=0483e6e945f415ecedfa81480e691ae74ca8d33c539b57e12982d56dc57e4613" >> .env
-          echo "DATABASE_URL=postgresql://postgres:postgres@localhost:5432/node_starter_template?schema=test" >> .env
-          echo "REDIS_URL=redis://localhost:6379" >> .env
-          echo "GOOGLE_CLIENT_ID=dummy" >> .env
-          echo "MAIL_HOST=0.0.0.0" >> .env
-          echo "MAIL_PORT=1025" >> .env
-          echo "MAIL_FROM='API Demo <noreply@demo.com>'" >> .env
+          echo "APP_ENV=development" >> .env.development
+          echo "DATABASE_URL=postgresql://postgres:postgres@localhost:5432/node_starter_template?schema=public" >> .env.development
+
+
+      - name: Create .env.test
+        run: |
+          echo "APP_NAME=Node" >> .env.test
+          echo "PORT=3000" >> .env.test
+          echo "APP_URL=http://127.0.0.1:3000" >> .env.test
+          echo "NODE_ENV=local" >> .env.test
+          echo "APP_KEY=b60603dbb0cbfc5b6a971c82065c50d6905ead5a94ab528850d1ec634780d658" >> .env.test
+          echo "JWT_ACCESS_SECRET=cd83847b0821ca84911b2b5a161bd226efedaafbef8819c16df540202f4a0b7d" >> .env.test
+          echo "JWT_REFRESH_SECRET=0483e6e945f415ecedfa81480e691ae74ca8d33c539b57e12982d56dc57e4613" >> .env.test
+          echo "DATABASE_URL=postgresql://postgres:postgres@localhost:5432/node_starter_template?schema=test" >> .env.test
+          echo "REDIS_URL=redis://localhost:6379" >> .env.test
+          echo "GOOGLE_CLIENT_ID=dummy" >> .env.test
+          echo "GOOGLE_CLIENT_SECRET=dummy" >> .env.test
+          echo "MAIL_HOST=0.0.0.0" >> .env.test
+          echo "MAIL_PORT=1025" >> .env.test
+          echo "MAIL_FROM='API Demo <noreply@demo.com>'" >> .env.test
 
       - name: Generate Prisma Client
-        run: npx prisma generate
+        run: npx dotenv -e .env.development -- npx prisma generate
 
       - name: Run migrations for dev/public schema
-        run: npx prisma migrate deploy
+        run: npx dotenv -e .env.development -- npx prisma migrate deploy
 
       - name: Run migrations for test schema
-        run: npx prisma migrate deploy
+        run: npx dotenv -e .env.test -- npx prisma migrate deploy
 
       - name: Run tests
-        run: npx vitest run
+        run: npx dotenv -e .env.test -- vitest run
