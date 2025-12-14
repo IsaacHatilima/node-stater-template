@@ -64,7 +64,7 @@
     "db:sync:dev": "dotenv -e .env.development -- npx prisma migrate deploy && npx prisma generate",
     "db:sync:test": "dotenv -e .env.test -- npx prisma migrate deploy",
     "db:sync": "npm run db:sync:dev && npm run db:sync:test",
-    "test": "dotenv -e .env.test -- vitest run --maxConcurrency 1"
+    "test": "dotenv -e .env.test -- vitest run"
   },
   "keywords": [],
   "author": "",
