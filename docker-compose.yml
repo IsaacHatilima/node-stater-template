@@ -2,7 +2,7 @@ services:
   api:
     build: .
     container_name: node-api
-    env_file: .envss.development
+    env_file: .env
     depends_on:
       postgres:
         condition: service_healthy
@@ -12,8 +12,8 @@ services:
       - "3000:3000"
     command: >
       sh -c "
-      npx prisma migrate deploy &&
-      node --experimental-specifier-resolution=node dist/server.js
+      npm run db:sync &&
+      node dist/server.js
       "
 
   postgres:
@@ -21,8 +21,8 @@ services:
     container_name: node-postgres
     environment:
       POSTGRES_USER: ${DB_USER:-postgres}
-      POSTGRES_PASSWORD: ${DB_PASSWORD:-password}
-      POSTGRES_DB: ${DB_NAME:-nodeapi}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-Password123}
+      POSTGRES_DB: ${DB_NAME:-node_starter_template}
     ports:
       - "5432:5432"
     volumes:

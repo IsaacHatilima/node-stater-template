@@ -1,7 +1,5 @@
 node_modules
 .env
-.envss.development
-.envww.test
 .idea
 /dist
 .node_modules
