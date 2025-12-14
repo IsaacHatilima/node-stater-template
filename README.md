@@ -6,14 +6,9 @@ API is configured to use PostgreSQL.
 
 ## Setup
 
-To prepare the API, make changes to .env.development and env.test files as needed:
-
-### Then
-
 ```bash
 
-cp .env.example .env.development
-cp .env.example .env.test
+cp .env.example .env
 
 # Install JavaScript dependencies
 npm install
