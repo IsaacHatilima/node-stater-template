@@ -11,7 +11,6 @@ export async function AuthMiddleware(req: Request, res: Response, next: NextFunc
         token = req.headers.authorization.split(" ")[1];
     } else if (req.cookies?.access_token) {
         token = req.cookies.access_token;
-        console.log(req.cookies.access_token);
     }
 
     if (!token) {
