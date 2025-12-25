@@ -1,8 +1,9 @@
 import {createClient} from "redis";
 import {logger} from "../lib/logger.js";
+import {env} from "../utils/environment-variables";
 
 export const redis = createClient({
-    url: process.env.REDIS_URL ?? "redis://localhost:6379",
+    url: env.REDIS_URL,
 });
 
 redis.on("error", (err) => {
@@ -30,4 +31,3 @@ export async function initRedis() {
         process.exit(1);
     }
 }
-
