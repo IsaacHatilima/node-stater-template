@@ -1,21 +1,22 @@
 import "dotenv/config";
 import nodemailer from "nodemailer";
+import {env} from "./../utils/environment-variables";
 
 export const mailer = nodemailer.createTransport({
-    host: process.env.MAIL_HOST ?? "localhost",
-    port: Number(process.env.MAIL_PORT) ?? 1025,
+    host: env.MAIL_HOST,
+    port: env.MAIL_PORT,
     secure: false,
-    auth: process.env.MAIL_USERNAME
+    auth: env.MAIL_USERNAME
         ? {
-            user: process.env.MAIL_USERNAME,
-            pass: process.env.MAIL_PASSWORD,
+            user: env.MAIL_USERNAME,
+            pass: env.MAIL_PASSWORD,
         }
         : undefined,
 });
 
 export async function sendMail(to: string, subject: string, html: string) {
     await mailer.sendMail({
-        from: process.env.MAIL_FROM ?? "noreply@example.com",
+        from: env.MAIL_FROM,
         to,
         subject,
         html,

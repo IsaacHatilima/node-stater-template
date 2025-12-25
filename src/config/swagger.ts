@@ -1,21 +1,21 @@
 import swaggerUi from "swagger-ui-express";
 import swaggerJsdoc from "swagger-jsdoc";
 import {Express, Request, Response} from "express";
+import {env} from "../utils/environment-variables";
 
 export function setupSwagger(app: Express) {
-    const enabled = (process.env.SWAGGER_ENABLED || "").toLowerCase() === "true";
-    if (!enabled)
+    if (!env.SWAGGER_ENABLED)
         return;
     const options = {
         definition: {
             openapi: "3.0.3",
             info: {
-                title: process.env.APP_NAME ? `${process.env.APP_NAME} API` : "API Docs",
+                title: env.APP_NAME ? `${env.APP_NAME} API` : "API Docs",
                 version: "0.0.1",
                 description: "API with full Auth pipeline.",
             },
             servers: [
-                {url: process.env.APP_URL || `http://localhost:${process.env.PORT || 3000}`},
+                {url: env.APP_URL || `http://localhost:${env.PORT}`},
             ],
             components: {
                 securitySchemes: {

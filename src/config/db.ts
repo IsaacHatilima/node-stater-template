@@ -9,14 +9,9 @@ const schema = isTest ? "test" : "public";
 
 let adapter: PrismaPg;
 
-if (!process.env.DATABASE_URL) {
-    logger.fatal("[DB] DATABASE_URL is not set");
-    process.exit(1);
-}
-
 try {
     adapter = new PrismaPg(
-        {connectionString: process.env.DATABASE_URL},
+        {connectionString: env.DATABASE_URL},
         {schema}
     );
 

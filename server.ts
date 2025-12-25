@@ -3,6 +3,7 @@ import {createApp} from "./app";
 import {connectDB, disconnectDB} from "./src/config/db";
 import {initRedis} from "./src/config/redis";
 import {logger} from "./src/lib/logger";
+import {env} from "./src/utils/environment-variables";
 
 (async () => {
     try {
@@ -10,14 +11,14 @@ import {logger} from "./src/lib/logger";
         await initRedis();
 
         const app = createApp();
-        const port = process.env.PORT ? Number(process.env.PORT) : 3000;
+        const port = env.PORT;
 
         const server = app.listen(port, () => {
             logger.info(`🚀 Server running on port ${port}`);
         });
 
         process.on("unhandledRejection", (err) => {
-            const isDev = process.env.NODE_ENV === "local";
+            const isDev = env.NODE_ENV === "local";
             if (isDev) console.error("Unhandled Rejection:", err);
             server.close(async () => {
                 await disconnectDB();
@@ -25,14 +26,17 @@ import {logger} from "./src/lib/logger";
             });
         });
 
-        process.on("SIGTERM", () => {
+        const gracefulShutdown = () => {
             server.close(async () => {
                 disconnectDB().finally(() => process.exit(0));
             });
-        });
+        };
+
+        process.on("SIGTERM", gracefulShutdown);
+        process.on("SIGINT", gracefulShutdown);
 
     } catch (err) {
-        const isDev = process.env.NODE_ENV === "local";
+        const isDev = env.NODE_ENV === "local";
         if (isDev) console.error("Failed to start server:", err);
         process.exit(1);
     }
