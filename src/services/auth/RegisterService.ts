@@ -6,6 +6,7 @@ import {container} from "../../lib/container";
 import {buildEmailTemplate, sendMail} from "../../lib/mailer";
 import {toSafeUser} from "../../lib/safe-user";
 import {EmailTakenError} from "../../lib/errors";
+import {env} from "../../utils/environment-variables";
 
 export class RegisterService {
     async register(data: { email: string; password: string; first_name: string; last_name: string; }) {
@@ -25,7 +26,7 @@ export class RegisterService {
                 include: {profile: true},
             });
             const verificationToken = container.emailVerificationService.generateVerificationToken(user.id, user.email);
-            const verificationUrl = `${process.env.APP_URL}/auth/verify-email?token=${verificationToken}`;
+            const verificationUrl = `${env.APP_URL}/auth/verify-email?token=${verificationToken}`;
 
             await sendMail(user.email, "Verify your email", buildEmailTemplate({
                 name: user.profile?.first_name ?? "there",
