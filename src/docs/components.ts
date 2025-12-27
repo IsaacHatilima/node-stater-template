@@ -13,7 +13,7 @@
  *     Profile:
  *       type: object
  *       properties:
- *         id:
+ *         public_id:
  *           type: string
  *           example: "6b83cb77-6c56-4338-9093-54fb3bdff9fe"
  *         first_name:
@@ -30,19 +30,15 @@
  *           type: string
  *           format: date-time
  *           example: "2025-12-09T09:46:56.630Z"
- *         userId:
- *           type: string
- *           example: "d949e8e0-90a6-4030-957b-cb98ff2565a8"
  *       required:
- *         - id
+ *         - public_id
  *         - first_name
  *         - last_name
- *         - userId
  *
  *     User:
  *       type: object
  *       properties:
- *         id:
+ *         public_id:
  *           type: string
  *           example: "d949e8e0-90a6-4030-957b-cb98ff2565a8"
  *         email:
@@ -73,7 +69,7 @@
  *         profile:
  *           $ref: '#/components/schemas/Profile'
  *       required:
- *         - id
+ *         - public_id
  *         - email
  *         - created_at
  *         - updated_at
