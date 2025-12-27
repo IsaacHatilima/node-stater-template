@@ -13,27 +13,12 @@ export function createApp() {
     app.use(
         pinoHttp({
             logger,
-            autoLogging: {
-                ignore: (req) => req.url.startsWith("/docs"),
-            },
+            autoLogging: env.NODE_ENV === "production",
             customLogLevel(req, res, err) {
                 if (err || res.statusCode >= 500) return "error";
                 if (res.statusCode >= 400) return "warn";
-                return "info";
+                return "silent";
             },
-            customSuccessMessage(req, res) {
-                return `${req.method} ${req.url} → ${res.statusCode}`;
-            },
-            redact: {
-                paths: [
-                    "req.headers.cookie",
-                    "req.headers.authorization",
-                ],
-                remove: true,
-            },
-            customAttributeKeys: env.NODE_ENV === "production"
-                ? undefined
-                : {responseTime: "responseTime"},
         })
     );
 
