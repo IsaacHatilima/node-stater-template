@@ -27,6 +27,8 @@ describe("GET /auth/check-password-reset-token", () => {
             .get(`/auth/check-password-reset-token?token=${token}`);
 
         expect(res.status).toBe(200);
+        expect(res.body.success).toBe(true);
+        expect(res.body.message).toBe("Token is valid");
     });
 
     it("returns 400 when no token provided", async () => {
@@ -34,7 +36,8 @@ describe("GET /auth/check-password-reset-token", () => {
             .get("/auth/check-password-reset-token");
 
         expect(res.status).toBe(400);
-        expect(res.body.errors).toBe("Missing Token");
+        expect(res.body.success).toBe(false);
+        expect(res.body.message).toBe("Missing Token");
     });
 
     it("returns 404 for invalid token", async () => {
@@ -42,6 +45,7 @@ describe("GET /auth/check-password-reset-token", () => {
             .get("/auth/check-password-reset-token?token=invalid.token.here");
 
         expect(res.status).toBe(400);
+        expect(res.body.success).toBe(false);
         expect(res.body.errors).toContain("Invalid or expired token.");
     });
 
@@ -58,6 +62,7 @@ describe("GET /auth/check-password-reset-token", () => {
             .get(`/auth/check-password-reset-token?token=${token}`);
 
         expect(res.status).toBe(400);
+        expect(res.body.success).toBe(false);
         expect(res.body.errors).toContain("Invalid or expired token.");
     });
 });

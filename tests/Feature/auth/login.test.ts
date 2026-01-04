@@ -19,9 +19,9 @@ describe("POST /auth/login", () => {
 
         expect(res.status).toBe(200);
         expect(res.body.message).toBe("Logged in");
-        expect(res.body.user).toBeDefined();
-        expect(res.body.access_token).toBeDefined();
-        expect(res.body.refresh_token).toBeDefined();
+        expect(res.body.data.user).toBeDefined();
+        expect(res.body.data.access_token).toBeDefined();
+        expect(res.body.data.refresh_token).toBeDefined();
     });
 
     it("returns 400 for non-existent user", async () => {
@@ -76,7 +76,7 @@ describe("POST /auth/login", () => {
 
         expect(res.status).toBe(200);
         expect(res.body.message).toBe("Two-factor authentication required");
-        expect(res.body.two_factor_required).toBe(true);
-        expect(res.body.challenge_id).toBeDefined();
+        expect(res.body.data.two_factor_required).toBe(true);
+        expect(res.body.data.challenge_id).toBeDefined();
     });
 });

@@ -32,6 +32,7 @@ describe("POST /auth/change-password", () => {
             });
 
         expect(res.status).toBe(200);
+        expect(res.body.success).toBe(true);
         expect(res.body.message).toBe("Password changed successfully.");
 
         const updatedUser = await prisma.user.findUnique({
@@ -56,7 +57,8 @@ describe("POST /auth/change-password", () => {
             });
 
         expect(res.status).toBe(400);
-        expect(res.body.error).toBe("MISSING_TOKEN");
+        expect(res.body.success).toBe(false);
+        expect(res.body.message).toBe("Invalid or expired token");
     });
 
     it("returns 422 when passwords do not match", async () => {
@@ -83,6 +85,7 @@ describe("POST /auth/change-password", () => {
             });
 
         expect(res.status).toBe(422);
+        expect(res.body.success).toBe(false);
         expect(res.body.errors).toContain("Passwords do not match");
     });
 
@@ -110,6 +113,7 @@ describe("POST /auth/change-password", () => {
             });
 
         expect(res.status).toBe(422);
+        expect(res.body.success).toBe(false);
         expect(res.body.errors).toBeDefined();
     });
 
@@ -122,6 +126,7 @@ describe("POST /auth/change-password", () => {
             });
 
         expect(res.status).toBe(400);
+        expect(res.body.success).toBe(false);
         expect(res.body.errors).toContain("Invalid or expired token.");
     });
 });

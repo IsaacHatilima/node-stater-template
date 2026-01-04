@@ -10,6 +10,7 @@ describe("POST /auth/google", () => {
             .send({});
 
         expect(res.status).toBe(422);
+        expect(res.body.success).toBe(false);
         expect(res.body.errors).toContain("id_token is required");
     });
 

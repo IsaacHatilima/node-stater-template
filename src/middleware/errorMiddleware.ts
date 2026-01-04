@@ -3,6 +3,7 @@ import {logger} from "../lib/logger";
 import {AppError} from "../lib/errors";
 import {parsePrismaError, parseStack} from "../lib/parse-stack";
 import {env} from "../utils/environment-variables";
+import {fail} from "../lib/response";
 
 export function errorMiddleware(
     err: Error,
@@ -23,7 +24,8 @@ export function errorMiddleware(
             "Handled application error"
         );
 
-        return res.status(err.status).json({
+        return fail(res, {
+            status: err.status,
             errors: [err.message],
         });
     }
@@ -44,7 +46,8 @@ export function errorMiddleware(
         "Unhandled error"
     );
 
-    return res.status(500).json({
+    return fail(res, {
+        status: 500,
         errors: ["Internal server error"],
     });
 }

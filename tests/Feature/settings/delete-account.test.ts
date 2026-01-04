@@ -21,7 +21,6 @@ describe("POST /settings/delete-account", () => {
         await prisma.refreshToken.create({
             data: {
                 userId: created.user.id,
-                jti,
                 token: refresh_token,
                 expiresAt: new Date(Date.now() + 7 * 24 * 3600 * 1000),
             },
@@ -34,8 +33,7 @@ describe("POST /settings/delete-account", () => {
                 password: "Password1#"
             });
 
-        expect(res.status).toBe(200);
-        expect(res.body.message).toBe("Profile Deleted successfully.");
+        expect(res.status).toBe(204);
     });
 
     it("user cannot delete account with wrong password", async () => {
@@ -49,6 +47,7 @@ describe("POST /settings/delete-account", () => {
             });
 
         expect(res.status).toBe(400);
+        expect(res.body.success).toBe(false);
         expect(res.body.errors).toContain("Invalid password.");
     });
 
@@ -61,6 +60,7 @@ describe("POST /settings/delete-account", () => {
             .send({});
 
         expect(res.status).toBe(422);
+        expect(res.body.success).toBe(false);
         expect(res.body.errors).toBeDefined();
     });
 });

@@ -1,6 +1,7 @@
 import "dotenv/config";
 import {container} from "../../lib/container";
 import {NextFunction, Request, Response} from "express";
+import {success} from "../../lib/response";
 import {clearAuthCookies} from "../../lib/auth-cookies";
 
 
@@ -15,14 +16,14 @@ export default async function LogoutController(
     try {
         if (!refreshToken) {
             clearAuthCookies(res);
-            return res.json({message: "Logged out."});
+            return success(res, {message: "Logged out."});
         }
 
         await container.logoutService.logout(refreshToken);
 
         clearAuthCookies(res);
 
-        return res.json({message: "Logged out."});
+        return success(res, {message: "Logged out."});
     } catch (error) {
         next(error);
     }

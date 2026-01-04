@@ -4,6 +4,7 @@ import {NextFunction, Request, Response} from "express";
 import {env} from "../utils/environment-variables";
 import {toSafeUser} from "../lib/safe-user";
 import {redis} from "../config/redis";
+import {fail} from "../lib/response";
 
 export async function AuthMiddleware(req: Request, res: Response, next: NextFunction) {
     let token;
@@ -14,7 +15,7 @@ export async function AuthMiddleware(req: Request, res: Response, next: NextFunc
     }
 
     if (!token) {
-        return res.status(401).json({errors: ["Unauthorized"]});
+        return fail(res, {status: 401, errors: ["Unauthorized"]});
     }
 
     try {
@@ -33,7 +34,8 @@ export async function AuthMiddleware(req: Request, res: Response, next: NextFunc
             });
 
             if (!user) {
-                return res.status(401).json({
+                return fail(res, {
+                    status: 401,
                     errors: ["Invalid or expired token"],
                 });
             }
@@ -49,6 +51,6 @@ export async function AuthMiddleware(req: Request, res: Response, next: NextFunc
         next();
 
     } catch (error) {
-        return res.status(401).json({errors: ["Invalid or expired session"]});
+        return fail(res, {status: 401, errors: ["Invalid or expired session"]});
     }
 }

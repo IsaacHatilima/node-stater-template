@@ -18,6 +18,7 @@ describe("PUT /settings/update-password", () => {
             });
 
         expect(res.status).toBe(200);
+        expect(res.body.success).toBe(true);
         expect(res.body.message).toBe("Password changed successfully.");
     });
 
@@ -34,6 +35,7 @@ describe("PUT /settings/update-password", () => {
             });
 
         expect(res.status).toBe(400);
+        expect(res.body.success).toBe(false);
         expect(res.body.errors).toContain("Invalid password.");
     });
 
@@ -50,6 +52,7 @@ describe("PUT /settings/update-password", () => {
             });
 
         expect(res.status).toBe(422);
+        expect(res.body.success).toBe(false);
         expect(res.body.errors).toContain("Passwords do not match.");
     });
 });

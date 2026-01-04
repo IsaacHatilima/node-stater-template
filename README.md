@@ -1,30 +1,32 @@
 # Node API
 
+## Status: Active Maintenance
+
 ## Environment Config
 
 API is configured to use PostgreSQL. Copy `.env.example` to `.env` and adjust values for your environment.
 
-| Variable | Description | Default |
-| --- | --- | --- |
-| `APP_NAME` | Display name for docs and emails | `Auth API` |
-| `APP_URL` | Base URL used in emails and Swagger docs | Required |
-| `APP_KEY` | Application signing key for verification tokens | Required |
-| `NODE_ENV` | Runtime environment (`local`, `development`, `test`, `production`) | `local` |
-| `PORT` | Port the API listens on | `3000` |
-| `LOG_LEVEL` | Pino log level | `info` |
-| `DATABASE_URL` | PostgreSQL connection string | Required |
-| `REDIS_URL` | Redis connection string | `redis://localhost:6379` |
-| `GOOGLE_CLIENT_ID` | Google OAuth client ID | Required |
-| `JWT_ACCESS_SECRET` | JWT access token secret | Required |
-| `JWT_REFRESH_SECRET` | JWT refresh token secret | Required |
-| `JWT_ACCESS_EXPIRES_IN` | Access token TTL (e.g. `120m`) | `120m` |
-| `JWT_REFRESH_EXPIRES_IN` | Refresh token TTL (e.g. `7d`) | `7d` |
-| `SWAGGER_ENABLED` | Enable Swagger docs | `false` |
-| `MAIL_HOST` | SMTP host | `localhost` |
-| `MAIL_PORT` | SMTP port | `1025` |
-| `MAIL_USERNAME` | SMTP username | empty |
-| `MAIL_PASSWORD` | SMTP password | empty |
-| `MAIL_FROM` | Default sender email | `noreply@example.com` |
+| Variable                 | Description                                                        | Default                  |
+|--------------------------|--------------------------------------------------------------------|--------------------------|
+| `APP_NAME`               | Display name for docs and emails                                   | `Auth API`               |
+| `APP_URL`                | Base URL used in emails and Swagger docs                           | Required                 |
+| `APP_KEY`                | Application signing key for verification tokens                    | Required                 |
+| `NODE_ENV`               | Runtime environment (`local`, `development`, `test`, `production`) | `local`                  |
+| `PORT`                   | Port the API listens on                                            | `3000`                   |
+| `LOG_LEVEL`              | Pino log level                                                     | `info`                   |
+| `DATABASE_URL`           | PostgreSQL connection string                                       | Required                 |
+| `REDIS_URL`              | Redis connection string                                            | `redis://localhost:6379` |
+| `GOOGLE_CLIENT_ID`       | Google OAuth client ID                                             | Required                 |
+| `JWT_ACCESS_SECRET`      | JWT access token secret                                            | Required                 |
+| `JWT_REFRESH_SECRET`     | JWT refresh token secret                                           | Required                 |
+| `JWT_ACCESS_EXPIRES_IN`  | Access token TTL (e.g. `120m`)                                     | `120m`                   |
+| `JWT_REFRESH_EXPIRES_IN` | Refresh token TTL (e.g. `7d`)                                      | `7d`                     |
+| `SWAGGER_ENABLED`        | Enable Swagger docs                                                | `false`                  |
+| `MAIL_HOST`              | SMTP host                                                          | `localhost`              |
+| `MAIL_PORT`              | SMTP port                                                          | `1025`                   |
+| `MAIL_USERNAME`          | SMTP username                                                      | empty                    |
+| `MAIL_PASSWORD`          | SMTP password                                                      | empty                    |
+| `MAIL_FROM`              | Default sender email                                               | `noreply@example.com`    |
 
 ### Example `.env`
 

@@ -1,6 +1,7 @@
 import {z} from "zod";
 import {container} from "../../lib/container";
 import {NextFunction, Request, Response} from "express";
+import {fail, success} from "../../lib/response";
 
 const passwordChangeSchema = z.object({
     password: z
@@ -19,20 +20,21 @@ export default async function ChangePasswordController(req: Request, res: Respon
     try {
         const parsed = passwordChangeSchema.safeParse(req.body);
         if (!parsed.success) {
-            return res.status(422).json({
+            return fail(res, {
+                status: 422,
                 errors: parsed.error.issues.map((i) => i.message),
             });
         }
         const token = req.query.token as string;
         if (!token) {
-            return res.status(400).json({error: "MISSING_TOKEN"});
+            return fail(res, {message: "Invalid or expired token"});
         }
 
         await container.changePasswordService.changePassword({
             password: req.body.password,
             token: token,
         });
-        return res.json({
+        return success(res, {
             message: "Password changed successfully.",
         });
     } catch (error: any) {

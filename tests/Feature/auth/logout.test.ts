@@ -37,6 +37,7 @@ describe("POST /auth/logout", () => {
             .set("Cookie", [`access_token=${access_token}`, `refresh_token=${refresh_token}`]);
 
         expect(res.status).toBe(200);
+        expect(res.body.success).toBe(true);
         expect(res.body.message).toBe("Logged out.");
 
         const refreshTokenInDb = await prisma.refreshToken.findUnique({
@@ -54,6 +55,7 @@ describe("POST /auth/logout", () => {
             .set("Cookie", `access_token=${createdData.access_token}`);
 
         expect(res.status).toBe(200);
+        expect(res.body.success).toBe(true);
         expect(res.body.message).toBe("Logged out.");
     });
 });

@@ -31,6 +31,7 @@ describe("POST /auth/refresh-tokens", () => {
             console.log("Response:", res.status, res.body);
         }
         expect(res.status).toBe(200);
+        expect(res.body.success).toBe(true);
         expect(res.body.message).toBe("Token refreshed");
 
         const oldToken = await prisma.refreshToken.findUnique({
@@ -47,6 +48,7 @@ describe("POST /auth/refresh-tokens", () => {
             .set("Cookie", `access_token=${created.access_token}`);
 
         expect(res.status).toBe(401);
+        expect(res.body.success).toBe(false);
         expect(res.body.errors).toContain("No refresh token");
     });
 
@@ -89,6 +91,7 @@ describe("POST /auth/refresh-tokens", () => {
             .set("Cookie", [`access_token=${access_token}`, `refresh_token=${refresh_token}`]);
 
         expect(res.status).toBe(400);
+        expect(res.body.success).toBe(false);
         expect(res.body.errors).toBeDefined();
     });
 });

@@ -1,12 +1,13 @@
 import {container} from "../../lib/container";
 import {NextFunction, Request, Response} from "express";
+import {fail, success} from "../../lib/response";
 
 export async function TwoFASetupController(req: Request, res: Response, next: NextFunction) {
     try {
         const result = await container.twoFactorService.initiateSetup(req);
-        return res.json({
+        return success(res, {
             message: "2FA setup initiated",
-            ...result,
+            data: result,
         });
     } catch (error: any) {
         next(error);
@@ -17,9 +18,9 @@ export async function TwoFAEnableController(req: Request, res: Response, next: N
     try {
         const {code} = req.body;
         if (!code)
-            return res.status(422).json({errors: ["Token is required"]});
+            return fail(res, {status: 422, errors: ["Token is required"]});
         const result = await container.twoFactorService.verifyAndEnable({code}, req);
-        return res.json({message: "2FA enabled", ...result});
+        return success(res, {message: "2FA enabled", data: result});
     } catch (error: any) {
         next(error);
     }
@@ -28,7 +29,7 @@ export async function TwoFAEnableController(req: Request, res: Response, next: N
 export async function TwoFADisableController(req: Request, res: Response, next: NextFunction) {
     try {
         const result = await container.twoFactorService.disableMFA(req);
-        return res.json({message: "2FA disabled", ...result});
+        return success(res, {message: "2FA disabled", data: result});
     } catch (error: any) {
         next(error);
     }
@@ -37,7 +38,7 @@ export async function TwoFADisableController(req: Request, res: Response, next: 
 export async function TwoFARegenerateCodesController(req: Request, res: Response, next: NextFunction) {
     try {
         const result = await container.twoFactorService.regenerateBackupCodes(req);
-        return res.json({message: "Backup codes regenerated", ...result});
+        return success(res, {message: "Backup codes regenerated", data: result});
     } catch (error: any) {
         next(error);
     }

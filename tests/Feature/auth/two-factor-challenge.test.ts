@@ -47,10 +47,11 @@ describe("POST /auth/2fa/verify", () => {
             });
 
         expect(res.status).toBe(200);
+        expect(res.body.success).toBe(true);
         expect(res.body.message).toBe("2FA verified");
-        expect(res.body.user).toBeDefined();
-        expect(res.body.access_token).toBeDefined();
-        expect(res.body.refresh_token).toBeDefined();
+        expect(res.body.data.user).toBeDefined();
+        expect(res.body.data.access_token).toBeDefined();
+        expect(res.body.data.refresh_token).toBeDefined();
     });
 
     it("verifies 2FA with backup code", async () => {
@@ -87,6 +88,7 @@ describe("POST /auth/2fa/verify", () => {
             });
 
         expect(res.status).toBe(200);
+        expect(res.body.success).toBe(true);
         expect(res.body.message).toBe("2FA verified");
 
         const updatedUser = await prisma.user.findUnique({
@@ -103,6 +105,7 @@ describe("POST /auth/2fa/verify", () => {
             });
 
         expect(res.status).toBe(422);
+        expect(res.body.success).toBe(false);
         expect(res.body.errors).toContain("challenge_id and code are required");
     });
 
@@ -115,6 +118,7 @@ describe("POST /auth/2fa/verify", () => {
             });
 
         expect(res.status).toBe(400);
+        expect(res.body.success).toBe(false);
         expect(res.body.errors).toContain("Two-factor challenge not found.");
     });
 
@@ -151,6 +155,7 @@ describe("POST /auth/2fa/verify", () => {
             });
 
         expect(res.status).toBe(400);
+        expect(res.body.success).toBe(false);
         expect(res.body.errors).toContain("Invalid two-factor authentication code.");
     });
 });

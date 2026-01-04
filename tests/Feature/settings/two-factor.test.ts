@@ -17,8 +17,9 @@ describe("GET /settings/2fa/setup", () => {
             .set("Cookie", `access_token=${created.access_token}`);
 
         expect(res.status).toBe(200);
+        expect(res.body.success).toBe(true);
         expect(res.body.message).toBe("2FA setup initiated");
-        expect(res.body.secret).toBeDefined();
+        expect(res.body.data.secret).toBeDefined();
     });
 });
 
@@ -51,6 +52,7 @@ describe("POST /settings/2fa/enable", () => {
             .send({});
 
         expect(res.status).toBe(422);
+        expect(res.body.success).toBe(false);
         expect(res.body.errors).toContain("Token is required");
     });
 });
@@ -120,9 +122,11 @@ describe("POST /settings/2fa/regenerate", () => {
         expect([200, 400, 500]).toContain(res.status);
 
         if (res.status === 200) {
+            expect(res.body.success).toBe(true);
             expect(res.body.message).toBe("Backup codes regenerated");
-            expect(res.body.backupCodes).toBeDefined();
+            expect(res.body.data.backupCodes).toBeDefined();
         } else {
+            expect(res.body.success).toBe(false);
             expect(res.body.errors).toContain("Two-factor authentication is not enabled.");
         }
     });

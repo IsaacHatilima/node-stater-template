@@ -18,6 +18,7 @@ describe("PUT /settings/update-profile", () => {
             });
 
         expect(res.status).toBe(200);
+        expect(res.body.success).toBe(true);
         expect(res.body.message).toBe("Profile Updated successfully.");
     });
 
@@ -34,6 +35,7 @@ describe("PUT /settings/update-profile", () => {
             });
 
         expect(res.status).toBe(422);
+        expect(res.body.success).toBe(false);
         expect(res.body.errors).toBeDefined();
     });
 
@@ -50,6 +52,7 @@ describe("PUT /settings/update-profile", () => {
             });
 
         expect(res.status).toBe(422);
+        expect(res.body.success).toBe(false);
         expect(res.body.errors).toBeDefined();
     });
 });

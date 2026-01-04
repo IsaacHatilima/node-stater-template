@@ -17,7 +17,9 @@ describe("POST /auth/register", () => {
             });
 
         expect(res.status).toBe(201);
+        expect(res.body.success).toBe(true);
         expect(res.body.message).toBe("Registered successfully.");
+        expect(res.body.data).toBeDefined();
         const user = await prisma.user.findUnique({
             where: {email: "johndoes@mail.com"},
             include: {profile: true}
@@ -42,6 +44,7 @@ describe("POST /auth/register", () => {
             });
 
         expect(res.status).toBe(400);
+        expect(res.body.success).toBe(false);
         expect(res.body.errors).toContain("Passwords do not match");
         const user = await prisma.user.findUnique({
             where: {email: "john.does@mail.com"},
@@ -63,6 +66,7 @@ describe("POST /auth/register", () => {
             });
 
         expect(res.status).toBe(400);
+        expect(res.body.success).toBe(false);
         expect(res.body.errors).toBeTruthy();
         expect(Array.isArray(res.body.errors)).toBe(true);
         const user = await prisma.user.findUnique({

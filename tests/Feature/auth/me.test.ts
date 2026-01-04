@@ -14,9 +14,9 @@ describe("GET /auth/me", () => {
             .set("Cookie", `access_token=${created.access_token}`);
 
         expect(res.status).toBe(200);
-        expect(res.body.user).toBeDefined();
-        expect(res.body.user.email).toBe(created.user.email);
-        expect(res.body.user.profile.first_name).toBe("Me");
+        expect(res.body.data.user).toBeDefined();
+        expect(res.body.data.user.email).toBe(created.user.email);
+        expect(res.body.data.user.profile.first_name).toBe("Me");
     });
 
     it("returns 401 when no token provided", async () => {

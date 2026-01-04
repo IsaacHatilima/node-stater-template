@@ -16,6 +16,7 @@ describe("POST /auth/forgot-password", () => {
             });
 
         expect(res.status).toBe(200);
+        expect(res.body.success).toBe(true);
         expect(res.body.message).toBe("A reset link has been sent to your email.");
 
         const resetToken = await prisma.passwordResetToken.findFirst({
@@ -37,6 +38,7 @@ describe("POST /auth/forgot-password", () => {
             });
 
         expect(res.status).toBe(404);
+        expect(res.body.success).toBe(false);
         expect(res.body.errors).toContain("User not found.");
     });
 
@@ -48,6 +50,7 @@ describe("POST /auth/forgot-password", () => {
             });
 
         expect(res.status).toBe(422);
+        expect(res.body.success).toBe(false);
         expect(res.body.errors).toBeDefined();
     });
 });

@@ -21,6 +21,7 @@ describe("GET /auth/verify-email", () => {
         const res = await request(app).get(`/auth/verify-email?token=${token}`);
 
         expect(res.status).toBe(200);
+        expect(res.body.success).toBe(true);
         expect(res.body.message).toBe("Email successfully verified.");
 
         const refreshed = await prisma.user.findUnique({
@@ -35,6 +36,7 @@ describe("GET /auth/verify-email", () => {
             .get("/auth/verify-email?token=invalid.token.haha");
 
         expect(res.status).toBe(400);
+        expect(res.body.success).toBe(false);
         expect(res.body.errors).toContain("Invalid or expired token");
     });
 
@@ -49,6 +51,7 @@ describe("GET /auth/verify-email", () => {
             .get(`/auth/verify-email?token=${fakeToken}`);
 
         expect(res.status).toBe(404);
+        expect(res.body.success).toBe(false);
         expect(res.body.errors).toContain("User not found");
     });
 

@@ -10,7 +10,7 @@ export function toSafeUser(user: User & { profile: Profile | null }) {
     } = user;
 
     const safeProfile = user.profile
-        ? (({id, userId, ...profile}) => profile)(user.profile)
+        ? (({id, ...profile}) => profile)(user.profile)
         : null;
 
     return {

@@ -1,6 +1,7 @@
 import {z} from "zod";
 import {container} from "../../lib/container";
 import {NextFunction, Request, Response} from "express";
+import {fail, success} from "../../lib/response";
 
 const passwordUpdateSchema = z.object({
     current_password: z.string(),
@@ -20,12 +21,13 @@ export default async function UpdatePasswordController(req: Request, res: Respon
     try {
         const parsed = passwordUpdateSchema.safeParse(req.body);
         if (!parsed.success) {
-            return res.status(422).json({
+            return fail(res, {
+                status: 422,
                 errors: parsed.error.issues.map((i) => i.message),
             });
         }
         await container.updatePasswordService.updatePassword(parsed.data, req);
-        return res.json({
+        return success(res, {
             message: "Password changed successfully.",
         });
     } catch (error: any) {
