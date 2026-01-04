@@ -2,7 +2,7 @@ import jwt from "jsonwebtoken";
 import {prisma} from "../config/db";
 import {NextFunction, Request, Response} from "express";
 import {env} from "../utils/environment-variables";
-import {toSafeUser} from "../lib/safe-user";
+import {UserDTO} from "../dtos/read/UserReadDTO";
 import {redis} from "../config/redis";
 import {fail} from "../lib/response";
 
@@ -43,11 +43,11 @@ export async function AuthMiddleware(req: Request, res: Response, next: NextFunc
             await redis.setEx(
                 `user:${user.id}`,
                 60 * 5,
-                JSON.stringify(toSafeUser(user))
+                JSON.stringify(new UserDTO(user))
             );
         }
 
-        req.user = toSafeUser(user);
+        req.user = new UserDTO(user);
         next();
 
     } catch (error) {

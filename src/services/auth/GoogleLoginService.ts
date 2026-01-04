@@ -3,7 +3,7 @@ import {prisma} from "../../config/db";
 import {redis} from "../../config/redis";
 import {v4 as uuidv4} from "uuid";
 import {generateAuthToken} from "../../lib/auth-token-generator";
-import {toSafeUser} from "../../lib/safe-user";
+import {UserDTO} from "../../dtos/read/UserReadDTO";
 import {env} from "../../utils/environment-variables";
 import {AppError, InvalidGoogleTokenError} from "../../lib/errors";
 
@@ -54,7 +54,7 @@ export class GoogleLoginService {
                 return {
                     two_factor_required: true,
                     challenge_id: challengeId,
-                    user: toSafeUser(user),
+                    user: new UserDTO(user),
                 };
             } catch (error) {
                 throw new AppError("Failed to initiate two-factor challenge");
@@ -82,14 +82,14 @@ export class GoogleLoginService {
                 .setEx(
                     `user:${user.id}`,
                     60 * 5,
-                    JSON.stringify(toSafeUser(user))
+                    JSON.stringify(new UserDTO(user))
                 );
         } catch {
             throw new AppError("Failed to create login session");
         }
 
         return {
-            user: toSafeUser(user),
+            user: new UserDTO(user),
             tokens: {
                 access_token: tokens.access_token,
                 refresh_token: tokens.refresh_token,

@@ -3,7 +3,7 @@ import bcrypt from "bcrypt";
 import {generateAccessToken, generateRefreshToken} from "../../lib/jwt";
 import {redis} from "../../config/redis";
 import {v4 as uuidv4} from "uuid";
-import {toSafeUser} from "../../lib/safe-user";
+import {UserDTO} from "../../dtos/read/UserReadDTO";
 import {
     AppError,
     InvalidCredentialsError,
@@ -11,11 +11,12 @@ import {
     SessionCreationError,
     TwoFactorChallengeError
 } from "../../lib/errors";
+import {LoginRequestDTO} from "../../dtos/command/LoginRequestDTO";
 
 export class LoginService {
-    async login(data: { email: string; password: string }) {
+    async login(dto: LoginRequestDTO) {
         const user = await prisma.user.findUnique({
-            where: {email: data.email},
+            where: {email: dto.email},
             include: {profile: true},
         });
 
@@ -23,7 +24,7 @@ export class LoginService {
             throw new InvalidCredentialsError();
         }
 
-        const valid = await bcrypt.compare(data.password, user.password);
+        const valid = await bcrypt.compare(dto.password, user.password);
         if (!valid) {
             throw new InvalidCredentialsError();
         }
@@ -68,7 +69,7 @@ export class LoginService {
 
         try {
             await prisma.user.update({
-                where: {email: data.email},
+                where: {email: dto.email},
                 data: {last_login: new Date()},
             });
         } catch (error) {
@@ -81,7 +82,7 @@ export class LoginService {
                 .setEx(
                     `user:${user.id}`,
                     60 * 5,
-                    JSON.stringify(toSafeUser(user))
+                    JSON.stringify(new UserDTO(user))
                 )
                 .exec();
         } catch (error) {
@@ -89,7 +90,7 @@ export class LoginService {
         }
 
         return {
-            user: toSafeUser(user),
+            user: new UserDTO(user),
             access_token,
             refresh_token,
         };

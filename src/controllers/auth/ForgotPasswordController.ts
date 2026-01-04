@@ -1,11 +1,8 @@
-import {z} from "zod";
 import {container} from "../../lib/container";
 import {NextFunction, Request, Response} from "express";
 import {fail, success} from "../../lib/response";
+import {forgotPasswordSchema} from "../../schemas/auth";
 
-const forgotPasswordSchema = z.object({
-    email: z.email(),
-});
 export default async function ForgotPasswordController(req: Request, res: Response, next: NextFunction) {
     try {
         const parsed = forgotPasswordSchema.safeParse(req.body);

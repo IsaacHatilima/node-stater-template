@@ -1,7 +1,7 @@
 import {prisma} from "../../config/db";
 import {normalizeEmail, normalizeName} from "../../utils/string";
 import {redis} from "../../config/redis";
-import {toSafeUser} from "../../lib/safe-user";
+import {UserDTO} from "../../dtos/read/UserReadDTO";
 import {Request} from "express";
 import {EmailTakenError, UpdateProfileError, UserNotFoundError} from "../../lib/errors";
 
@@ -45,7 +45,7 @@ export class UpdateProfileService {
             await redis.setEx(
                 `user:${updatedUser.id}`,
                 60 * 5,
-                JSON.stringify(toSafeUser(updatedUser))
+                JSON.stringify(new UserDTO(updatedUser))
             );
         } catch {
 

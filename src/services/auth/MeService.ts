@@ -1,6 +1,6 @@
 import {prisma} from "../../config/db";
-import {toSafeUser} from "../../lib/safe-user";
 import {AppError, UserNotFoundError} from "../../lib/errors";
+import {UserDTO} from "../../dtos/read/UserReadDTO";
 
 export class MeService {
     async getMe(public_id: string) {
@@ -19,6 +19,6 @@ export class MeService {
             throw new UserNotFoundError();
         }
 
-        return toSafeUser(user);
+        return new UserDTO(user);
     }
 }

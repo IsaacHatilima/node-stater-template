@@ -4,22 +4,23 @@ import bcrypt from "bcrypt";
 import {normalizeEmail, normalizeName} from "../../utils/string";
 import {container} from "../../lib/container";
 import {buildEmailTemplate, sendMail} from "../../lib/mailer";
-import {toSafeUser} from "../../lib/safe-user";
 import {EmailTakenError} from "../../lib/errors";
 import {env} from "../../utils/environment-variables";
+import {RegisterRequestDTO} from "../../dtos/command/RegisterRequestDTO";
+import {UserDTO} from "../../dtos/read/UserReadDTO";
 
 export class RegisterService {
-    async register(data: { email: string; password: string; first_name: string; last_name: string; }) {
+    async register(dto: RegisterRequestDTO) {
         try {
-            const hashedPassword = await bcrypt.hash(data.password, 10);
+            const hashedPassword = await bcrypt.hash(dto.password, 10);
             const user = await prisma.user.create({
                 data: {
-                    email: normalizeEmail(data.email),
+                    email: normalizeEmail(dto.email),
                     password: hashedPassword,
                     profile: {
                         create: {
-                            first_name: normalizeName(data.first_name),
-                            last_name: normalizeName(data.last_name),
+                            first_name: normalizeName(dto.firstName),
+                            last_name: normalizeName(dto.lastName),
                         },
                     },
                 },
@@ -35,7 +36,7 @@ export class RegisterService {
                 buttonText: "Verify Email",
             }));
 
-            return toSafeUser(user);
+            return new UserDTO(user);
         } catch (error: any) {
             if (error.code === "P2002") {
                 throw new EmailTakenError();

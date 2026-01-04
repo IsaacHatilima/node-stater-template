@@ -2,7 +2,7 @@ import {redis} from "../../config/redis";
 import {prisma} from "../../config/db";
 import speakeasy from "speakeasy";
 import {generateAuthToken} from "../../lib/auth-token-generator";
-import {toSafeUser} from "../../lib/safe-user";
+import {UserDTO} from "../../dtos/read/UserReadDTO";
 import {
     AppError,
     InvalidTwoFactorTokenError,
@@ -85,7 +85,7 @@ export class TwoFactorChallengeService {
                 .setEx(
                     `user:${user.id}`,
                     60 * 5,
-                    JSON.stringify(toSafeUser(user))
+                    JSON.stringify(new UserDTO(user))
                 )
                 .del(cacheKey)
                 .exec();
@@ -103,7 +103,7 @@ export class TwoFactorChallengeService {
         }
 
         return {
-            user: toSafeUser(user),
+            user: new UserDTO(user),
             access_token: tokens.access_token,
             refresh_token: tokens.refresh_token,
         };

@@ -3,12 +3,8 @@ import {container} from "../../lib/container";
 import {setAuthCookies} from "../../lib/auth-cookies";
 import {NextFunction, Request, Response} from "express";
 import {fail, success} from "../../lib/response";
-import {z} from "zod";
-
-const loginSchema = z.object({
-    email: z.email(),
-    password: z.string(),
-});
+import {loginSchema} from "../../schemas/auth";
+import {LoginRequestDTO} from "../../dtos/command/LoginRequestDTO";
 
 export default async function LoginController(req: Request, res: Response, next: NextFunction) {
     try {
@@ -19,7 +15,9 @@ export default async function LoginController(req: Request, res: Response, next:
             });
         }
 
-        const result = await container.loginService.login(req.body);
+        const dto = LoginRequestDTO.fromParsed(parsed.data);
+
+        const result = await container.loginService.login(dto);
         if (result.two_factor_required) {
             return success(res, {
                 message: "Two-factor authentication required",

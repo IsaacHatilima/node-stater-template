@@ -1,15 +1,12 @@
-import {z} from "zod";
 import {container} from "../../lib/container";
 import {NextFunction, Request, Response} from "express";
 import {clearAuthCookies} from "../../lib/auth-cookies";
 import {deleted, fail} from "../../lib/response";
+import {deleteAccountSchema} from "../../schemas/settings";
 
-const deleteProfileSchema = z.object({
-    password: z.string(),
-});
 export default async function DeleteAccountController(req: Request, res: Response, next: NextFunction) {
     try {
-        const parsed = deleteProfileSchema.safeParse(req.body);
+        const parsed = deleteAccountSchema.safeParse(req.body);
 
         if (!parsed.success) {
             return fail(res, {
